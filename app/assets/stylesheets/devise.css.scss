@@ -3,7 +3,7 @@
 	margin-top: 70px;
 	padding: 0;
 	border: 1px solid $gray;
-	@include border-radius($medium-box-radius);
+	@include border-radius($medium-radius);
 
 	form {
 		padding: 40px 40px 10px 40px;
@@ -38,7 +38,7 @@
 
 	background: $blue;
 	padding: 20px;
-	@include border-top-radius($medium-box-radius);
+	@include border-top-radius($medium-radius);
 	text-align: center;
 	h2 {
 		margin: 0;

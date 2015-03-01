@@ -3,8 +3,11 @@
 @import "compass/reset";
 @import "foundation_and_overrides";
 @import "foundation-icons";
+
 @import "variables";
+@import "base";
 @import "header";
 @import "compass/layout/sticky-footer";
 @import "footer";
 @import "devise";
+@import "messages";

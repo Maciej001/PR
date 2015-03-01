@@ -1,0 +1,7 @@
+.row
+	.small-12.large-12.columns
+		- if flash.any?
+			- flash.each do |name, msg|
+				- if msg.is_a?(String)
+					%div{class: "alert alert-#{name.to_s == 'notice' ? 'notice' : 'alert'}" }
+						= content_tag :p, msg, :id => "flash_#{name}"

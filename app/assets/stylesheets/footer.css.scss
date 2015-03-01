@@ -3,11 +3,13 @@
 footer {
 	text-align:  	center;
 	height: 			70px;
-	background: 	$gray;
+	background: 	$dark-gray;
 
 	h5.subheader {
 		height: 			70px;
 		line-height: 	70px;
+		color: 				$font-light-gray;
+		font-size:  	0.85em;
 	}
 }
 
