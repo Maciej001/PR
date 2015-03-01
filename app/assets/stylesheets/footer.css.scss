@@ -1,13 +1,11 @@
-@include sticky-footer(70px, "#layout", "#layout_footer", "#footer");
-
 footer {
 	text-align:  	center;
-	height: 			70px;
+	height: 			90px;
 	background: 	$dark-gray;
 
 	h5.subheader {
-		height: 			70px;
-		line-height: 	70px;
+		height: 			90px;
+		line-height: 	90px;
 		color: 				$font-light-gray;
 		font-size:  	0.85em;
 	}
