@@ -1,0 +1,77 @@
+.devise-form {
+	max-width: $devise-form-width;
+	margin-top: 70px;
+	padding: 0;
+	border: 1px solid $gray;
+	@include border-radius($medium-box-radius);
+
+	form {
+		padding: 40px 40px 10px 40px;
+	}
+
+	label {
+		margin-bottom: 5px;
+	}
+
+	p {
+		display: inline-block
+	}
+
+	em {
+		font-size: 0.8em;
+	}
+
+
+}
+
+.devise-form-links {
+	padding: 0 40px 0 40px;
+	margin-bottom: 10px;
+	p {
+		color: $dark-gray;
+	}
+}
+
+
+#devise-form-header {
+	width: 	100%;
+
+	background: $blue;
+	padding: 20px;
+	@include border-top-radius($medium-box-radius);
+	text-align: center;
+	h2 {
+		margin: 0;
+		padding: 0;
+		color: 	white;
+		font-size: 1.5em;
+	}
+}
+
+#error_explanation {
+
+	h2 {
+		font-size: 	1.2em;
+		color: 			$dark-gray;
+	}
+
+	li {
+		color:  	lighten($red, 10%);
+	}
+}
+
+.button-centered {
+	text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+

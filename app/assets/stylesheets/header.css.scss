@@ -1,0 +1,30 @@
+.top-bar, .expanded ul li {
+	background: $blue;
+}
+
+.expanded ul li {
+	border-top: 	1px solid lighten($blue, 5%);	
+}
+
+.top--bar-section ul li,
+.top-bar-section li:not(.has-form) a:not(.button)
+{
+	background: $blue;
+	&:hover {
+		background: $dark-blue;
+	}
+}
+
+.title-area .name h1 a {
+	font-size: 		1.2em;
+}
+
+.top-bar-section ul li.free-account a,
+.top-bar-section li:not(.has-form).free-account a:not(.button) {
+	background: $red;
+}
+
+nav.header-width {
+	max-width: $max-width;
+}
+
