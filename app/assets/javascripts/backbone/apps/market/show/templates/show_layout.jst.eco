@@ -1,0 +1,14 @@
+<div id="market-region">
+	
+	<div class="row">
+	
+		<div id="rtmarket-region" class="large-4 columns"></div>
+
+		<div id="data-area" class="large-8 columns">
+			<div id="chart-region"></div>
+			<div id="session-region"></div>
+		</div>
+	
+	</div> 
+
+</div>

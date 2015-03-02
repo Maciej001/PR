@@ -1,0 +1,56 @@
+
+	<div class="large-12 columns stats-header">
+		<h3>Session statistics<h3>		
+	</div>
+	<div class="large-12 columns stats-data">
+		<div class="row">
+			<div class="large-6 columns stats-data-left">
+				<table>
+					<tr>
+						<td>Total contracts traded</td>
+						<td>1234</td>
+					</tr>
+					<tr>
+						<td>Number of trades</td>
+						<td>433</td>
+					</tr>
+					<tr>
+						<td>Average trade size</td>
+						<td>322</td>
+					</tr>
+					<tr>
+						<td>Open positions</td>
+						<td>2433</td>
+					</tr>
+					<tr>
+						<td>Active traders</td>
+						<td>56</td>
+					</tr>
+				</table>
+
+			</div>
+			<div class="large-6 columns stats-data-left">
+				<table>
+					<tr>
+						<td>Open</td>
+						<td>144</td>
+					</tr>
+					<tr>
+						<td>High</td>
+						<td>179</td>
+					</tr>
+					<tr>
+						<td>Low</td>
+						<td>115</td>
+					</tr>
+					<tr>
+						<td>Last</td>
+						<td>128</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+
+

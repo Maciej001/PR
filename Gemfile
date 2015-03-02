@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.4'
 
 gem 'devise'
+gem 'simple_token_authentication'
 
 gem 'pg'
 gem 'rails_12factor', group: :production
@@ -12,6 +13,7 @@ gem 'rabl'
 gem 'oj'
 gem 'gon'
 gem 'js-routes'
+gem 'spinjs-rails'
 
 gem 'sprockets', '~> 2.12'
 gem 'sass-rails'
@@ -29,8 +31,8 @@ gem 'jquery-rails'
 
 gem 'momentjs-rails', '~> 2.8.3'  # data and time
 
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
-
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
