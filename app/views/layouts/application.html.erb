@@ -12,12 +12,13 @@
   </head>
 
   <body>
-    <%= render 'layouts/messages' %>
+    <!-- <%= render 'layouts/messages' %> -->
     <%= yield %>
     
     <script type="text/javascript">
       <% if signed_in? -%>
         Payrollsio.currentUser = new Payrollsio.Entities.User(<%= current_user.to_json.html_safe %>);
+        Payrollsio.start()
       <% else -%>
         Payrollsio.currentUser = null;
       <% end -%>

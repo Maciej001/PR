@@ -7,6 +7,7 @@ gem 'simple_token_authentication'
 
 gem 'pg'
 gem 'rails_12factor', group: :production
+gem 'eco'
 
 gem 'thin'
 gem 'rabl'
