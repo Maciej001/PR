@@ -37,5 +37,4 @@
 //= require_tree ./backbone/entities 
 //= require_tree ./backbone/apps
 
-
 $(function(){ 'use strict'; $(document).foundation(); });

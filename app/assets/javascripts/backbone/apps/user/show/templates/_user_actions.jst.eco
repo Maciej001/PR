@@ -1,0 +1,5 @@
+<ul id="user-buttons">
+	<li class="button btn-green">Market</li>
+	<li class="button btn-yellow">Account</li>
+	<li class="button btn-red">Panic button</li>
+</ul>

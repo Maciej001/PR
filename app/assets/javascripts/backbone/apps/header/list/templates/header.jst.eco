@@ -1,0 +1,23 @@
+<header>	
+	<div class="contain-to-grid">
+		
+		<nav class="top-bar">
+			<ul class="title-area">
+				<li class="name">
+					<h1>
+						<a href="#">
+							<div id="logo">
+								<h3>Payrollsio</h3>
+							</div>
+						</a>
+					</h1>
+		    	</li>
+			</ul>
+
+			<section class="top-bar-section">
+		    <ul id="nav-links" class="right"></ul>
+		  </section>
+
+		</nav>
+	</div>
+</header>
