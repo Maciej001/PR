@@ -1,3 +1,0 @@
-<div class="message">
-	<h5><%= @name %>, <%= @message %> </h5>
-</div>

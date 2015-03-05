@@ -1,4 +1,0 @@
-<a href="<%= @url %>" id="<%= @id %>">
-	<i class="<%= @icon %>"></i>
-	<span><%= @name %></span>
-</a>

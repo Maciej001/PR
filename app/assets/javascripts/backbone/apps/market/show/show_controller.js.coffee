@@ -9,7 +9,7 @@
 
 			@listenTo @layoutView, "show", =>
 				@rtmarketRegion()
-				@chartRegion()
+				@chartRegion() 
 				@sessionRegion()
  
 			@show @layoutView
