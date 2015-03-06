@@ -12,7 +12,7 @@
 			%ul.right
 				- if user_signed_in? and current_user.admin?
 					%li
-						= link_to "Admin", '#'
+						= link_to "Admin", application_admin_path
 					%li
 						= link_to "Profile", edit_user_registration_path
 					%li 

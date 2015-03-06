@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   resources 	:users
 
   root to: "application#index"
-  get "application/admin"
+
+  get "application/admin", to: "application#admin"
 end

@@ -1,0 +1,8 @@
+#admin-header {
+	background: $blue;
+	padding: 10px 0;
+
+	#{headings()}, li, a, p, span {
+		color: white;
+	}
+}
