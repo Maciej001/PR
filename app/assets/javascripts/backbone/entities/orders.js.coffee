@@ -5,6 +5,7 @@
 
 	class Entities.OrdersCollection extends App.Entities.Collection
 		model: Entities.Order
+		url: 	Routes.orders_path()
 
 	API = 
 

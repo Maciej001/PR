@@ -1,4 +1,4 @@
-class Price < ActiveRecord::Base
+class Order < ActiveRecord::Base
 	belongs_to :user
 
 	enum side: 	[:bid, :offer]

@@ -3,8 +3,8 @@
 	class Show.Controller extends App.Controllers.Application   
 		
 		initialize: ->
-			# orders = App.entitiesBus.request "get:active:orders"
-			# Window.o = orders
+			orders = App.entitiesBus.request "get:active:orders"
+			Window.o = orders
 
 			@layoutView = @getLayoutView()
 
@@ -16,8 +16,8 @@
 			@show @layoutView
 
 		ordersRegion: ->
-			orderView = @getOrdersView()
-			@show orderView, region: @layoutView.ordersRegion
+			ordersView = @getOrdersView()
+			@show ordersView, region: @layoutView.ordersRegion
 
 		chartRegion: ->
 			chartView = @getChartView()

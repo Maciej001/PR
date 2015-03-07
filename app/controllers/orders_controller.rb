@@ -2,7 +2,7 @@ class OrdersController < ActionController::Base
 	respond_to :json
 
 	def index
-		@orders = Orders.all
+		@orders = Order.all
 	end
 
 	def show
