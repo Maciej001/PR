@@ -1,7 +1,7 @@
 @Payrollsio.module "Entities", (Entities, App, Backbone, Marionette, $, _) ->
 
 	class Entities.Order extends App.Entities.Model
-		urlRoot: -> Routes.orders_path()
+		urlRoot: -> Routes.new_order_path()
 
 	class Entities.OrdersCollection extends App.Entities.Collection
 		model: Entities.Order
@@ -23,16 +23,15 @@
 			order.fetch()
 			order
 
-		newOrder: ->
+		newOrderEntity: ->
 			order = new Entities.Order
 
 	App.entitiesBus.reply "get:active:orders", ->
-		console.log "fetching orders"
 		API.getActiveOrders()
 
 	App.entitiesBus.reply "get:order", (id) ->
 		API.getOrder id
 
 
-	App.entitiesBus.reply "new:order", ->
-		API.newOrder()
+	App.entitiesBus.reply "new:order:entity", ->
+		API.newOrderEntity()

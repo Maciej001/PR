@@ -10,7 +10,7 @@
 	App.rootRoute = "application#index"
 
 	App.addRegions
-		marketRegion:	"#market-region"
+		marketRegion:	"#main-region"
 
 	App.addInitializer ->
 		$('footer').remove() 
@@ -20,6 +20,7 @@
 		@startHistory()
 		@navigate(@rootRoute, trigger: true) unless @getCurrentRoute()
 
-	App.mainBus.reply "default:region", App.marketRegion 
+	App.mainBus.reply "default:region", ->
+		App.marketRegion 
 
 	App

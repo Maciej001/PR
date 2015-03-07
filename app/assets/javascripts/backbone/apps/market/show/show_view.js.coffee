@@ -5,11 +5,15 @@
 
 		regions: 
 			ordersRegion:		 	"#orders-region"
+			newOrderRegion:		"#new-region"
 			chartRegion: 			"#chart-region"
 			sessionRegion: 		"#session-region"
 
 	class Show.Orders extends App.Views.ItemView
 		template: "market/show/_orders" 
+
+		triggers: 
+			"click #new-order": "new:order:clicked"
 
 	class Show.Chart extends App.Views.ItemView
 		template: "market/show/_chart"

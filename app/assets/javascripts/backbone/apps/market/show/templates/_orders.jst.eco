@@ -17,8 +17,14 @@
 				<h5 class="button small btn-green">size: 12</h5>
 			</div>
 		</div>
+
+		<div class="row">
+			<div class="small-12 large-12 columns">
+				<h4 id="new-order" class="button btn-red">New order</h4>
+			</div>
+		</div>
 	
-		<div class="row market-depth">
+		<!-- <div class="row market-depth">
 			<h3>Market depth</h3>
 			<div class="large-6 columns bids-depth">
 				<table>
@@ -78,7 +84,7 @@
 				</table>
 			</div>
 
-		</div>
+		</div> -->
 
 	</div>
 </div>

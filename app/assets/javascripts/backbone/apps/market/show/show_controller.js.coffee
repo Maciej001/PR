@@ -4,7 +4,6 @@
 		
 		initialize: ->
 			orders = App.entitiesBus.request "get:active:orders"
-			Window.o = orders
 
 			@layoutView = @getLayoutView()
 
@@ -17,7 +16,14 @@
 
 		ordersRegion: ->
 			ordersView = @getOrdersView()
+
+			@listenTo ordersView, "new:order:clicked", =>
+				@newOrderClicked @layoutView.newOrderRegion
+
 			@show ordersView, region: @layoutView.ordersRegion
+
+		newOrderClicked: (region) ->
+			App.mainBus.trigger "new:order:form", region
 
 		chartRegion: ->
 			chartView = @getChartView()
@@ -28,7 +34,7 @@
 			@show sessionView, region: @layoutView.sessionRegion
 
 		getOrdersView: ->
-			new Show.Orders
+			new Show.Orders 
 
 		getChartView: ->
 			new Show.Chart
