@@ -3,20 +3,21 @@
 	class Show.Controller extends App.Controllers.Application   
 		
 		initialize: ->
-			orders = App.request "get:live:orders"
-			# prices = App.request "prices:entities"
+			# orders = App.entitiesBus.request "get:active:orders"
+			# Window.o = orders
+
 			@layoutView = @getLayoutView()
 
 			@listenTo @layoutView, "show", =>
-				@rtmarketRegion()
+				@ordersRegion()
 				@chartRegion() 
 				@sessionRegion()
  
 			@show @layoutView
 
-		rtmarketRegion: ->
-			rtmarketView = @getRTMarketView()
-			@show rtmarketView, region: @layoutView.rtmarketRegion
+		ordersRegion: ->
+			orderView = @getOrdersView()
+			@show orderView, region: @layoutView.ordersRegion
 
 		chartRegion: ->
 			chartView = @getChartView()
@@ -26,8 +27,8 @@
 			sessionView = @getSessionView()
 			@show sessionView, region: @layoutView.sessionRegion
 
-		getRTMarketView: ->
-			new Show.RTMarket
+		getOrdersView: ->
+			new Show.Orders
 
 		getChartView: ->
 			new Show.Chart

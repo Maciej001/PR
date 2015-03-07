@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources 	:users
 
   resources 	:markets
+  resources 	:orders
 
   root to: "application#index"
 

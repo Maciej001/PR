@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.1.4'
+gem 'jquery-rails'
 
 gem 'devise'
 gem 'simple_token_authentication'
@@ -28,7 +29,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'better_errors'
 
 gem 'haml'
-gem 'jquery-rails'
+
 
 gem 'momentjs-rails', '~> 2.8.3'  # data and time
 

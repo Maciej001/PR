@@ -4,12 +4,12 @@
 		template: "market/show/show_layout"
 
 		regions: 
-			rtmarketRegion: 	"#rtmarket-region"
+			ordersRegion:		 	"#orders-region"
 			chartRegion: 			"#chart-region"
 			sessionRegion: 		"#session-region"
 
-	class Show.RTMarket extends App.Views.ItemView
-		template: "market/show/_rtmarket" 
+	class Show.Orders extends App.Views.ItemView
+		template: "market/show/_orders" 
 
 	class Show.Chart extends App.Views.ItemView
 		template: "market/show/_chart"
