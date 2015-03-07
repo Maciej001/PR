@@ -3,9 +3,9 @@
 	class Show.Controller extends App.Controllers.Application   
 		
 		initialize: ->
+			orders = App.request "get:live:orders"
 			# prices = App.request "prices:entities"
 			@layoutView = @getLayoutView()
-
 
 			@listenTo @layoutView, "show", =>
 				@rtmarketRegion()

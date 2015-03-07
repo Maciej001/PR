@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+	has_many :orders
+
 	# using enum
 	# rails generates helper methods user.user? and user.admin?
 	# 

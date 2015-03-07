@@ -1,7 +1,21 @@
 *, #{headings()}, li, a, p, span {
 	font-family: 'Roboto', sans-serif;
 }
-
+.market-header-row {
+	height: auto;
+}
 .row-full-width {
 	width: 100%;
+}
+
+.button {
+	background: $blue;
+
+	&:hover {
+		background: darken($blue, 10%);
+	}
+}
+
+.button-red {
+	background: $red;
 }
