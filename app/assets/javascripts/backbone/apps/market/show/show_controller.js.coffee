@@ -18,12 +18,12 @@
 			ordersView = @getOrdersView()
 
 			@listenTo ordersView, "new:order:clicked", =>
-				@newOrderClicked @layoutView.newOrderRegion
+				@newOrderClicked()
 
 			@show ordersView, region: @layoutView.ordersRegion
 
-		newOrderClicked: (region) ->
-			App.mainBus.trigger "new:order:form", region
+		newOrderClicked: ->
+			App.mainBus.trigger "new:order:form", @layoutView.newOrderRegion
 
 		chartRegion: ->
 			chartView = @getChartView()

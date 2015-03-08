@@ -5,7 +5,7 @@
 
 		regions: 
 			ordersRegion:		 	"#orders-region"
-			newOrderRegion:		"#new-region"
+			newOrderRegion:		"#new-order-region"
 			chartRegion: 			"#chart-region"
 			sessionRegion: 		"#session-region"
 

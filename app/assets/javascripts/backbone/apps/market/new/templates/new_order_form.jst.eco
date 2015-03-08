@@ -4,8 +4,8 @@
 		<div class="large-12 columns">
 			<label>What do you want to do?</label>
 			<div class="large-6">
-      	<input type="radio" name="side" value="Buy" 	id="buy">	<label for="buy" >Buy</label>
-      	<input type="radio" name="side" value="Sell" 	id="sell"><label for="sell">Buy</label>
+      	<input type="radio" name="side" value="Buy" 	id="buy" checked="checked">	<label for="buy" >Buy</label>
+      	<input type="radio" name="side" value="Sell" 	id="sell"><label for="sell">Sell</label>
 			</div>
 		</div>
 	</div>
@@ -13,9 +13,9 @@
 	<div class="row">
 		<div class="large-12 columns">
 			<label>Price</label>
-			<div class="large-6">
-				<input type="text" name="price" placeholder="Crew Member Name">
-			</div>
+				<div class="large-6">
+					<input type="text" name="price">
+				</div>
 		</div>
 	</div>
 
@@ -23,7 +23,7 @@
 		<div class="large-12 columns">
 			<label>Number of contract</label>
 			<div class="large-6">
-				<input type="text" name="size" placeholder="Crew Member Name">
+				<input type="text" name="size">
 			</div>
 		</div>
 	</div>

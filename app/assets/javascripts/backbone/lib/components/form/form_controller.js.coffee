@@ -3,6 +3,7 @@
 	class Form.Controller extends App.Controllers.Application
 
 		initialize: (options = {}) ->
+			console.log "DEBUG: form controller options", options
 			@contentView = options.view
 			@formLayout = @getFormLayout options.config
 

@@ -9,8 +9,12 @@
 			new_order = App.entitiesBus.request "new:order:entity"
 
 			newView = @getNewView new_order
+
+			@listenTo newView, "form:cancel", =>
+				@region.reset()
+
 			formView = App.mainBus.request "form:wrapper", newView
-			@show formView, region: region
+			@show formView
 
 		getNewView: (new_order) ->
 			new New.OrderView
