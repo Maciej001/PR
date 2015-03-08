@@ -42,6 +42,10 @@
   };
 
   Backbone.sync = function(method, model, options) {
+    console.log "DEBUG: Backbone sync:"
+    console.log "method", method
+    console.log "model", model
+    console.log "options", options
     var type = methodMap[method];
     var response ={};
 

@@ -2,6 +2,5 @@
 	= render 'header'
 	= render 'main'
 	
-
-- if user_signed_in?
+- unless user_signed_in?
 	= render 'footer'

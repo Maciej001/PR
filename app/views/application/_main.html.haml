@@ -1,5 +1,6 @@
 #main-region
 	- unless user_signed_in?
+		/ Prohibits load content of the static front page only if 
 		= render 'home_page'
 
 

@@ -4,17 +4,19 @@
 
 		initialize: (args) ->
 			{ region } = args
-			console.log "DEBUG: new controller args", region
 			
 			new_order = App.entitiesBus.request "new:order:entity"
 
 			newView = @getNewView new_order
 
 			@listenTo newView, "form:cancel", =>
-				@region.reset()
+				@region.reset() 
+
+			@listenTo new_order, "created", ->
+				console.log "new order placed"
 
 			formView = App.mainBus.request "form:wrapper", newView
-			@show formView
+			@show formView  
 
 		getNewView: (new_order) ->
 			new New.OrderView

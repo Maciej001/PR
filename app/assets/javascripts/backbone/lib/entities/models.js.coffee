@@ -27,6 +27,8 @@
 		save: (data, options = {}) =>
 			isNew = @isNew()
 
+			console.log options
+			
 			_.defaults options,
 				 # wait for the server before setting the new 
 				 # attribus on the model

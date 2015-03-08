@@ -2,48 +2,29 @@ class OrdersController < ActionController::Base
 	respond_to :json
 
 	def index
-		@orders = Order.all
+		respond_with Order.all
 	end
 
 	def show
-		@order = Orders.find params[:id]
+		respond_with Orders.find params[:id]
 	end
 
 	def update
-		@order = Order.find params[:id]
-
-		if @order.update order_params
-
-		else
-			respond_with @order
-		end
+		respond_with( Order.find params[:id], order_params )
 	end
 
 	def create
-		@order = Order.new new_order_params
-
-		if @order.save
-
-		else
-			respond_with @order
-		end
+		respond_with( Order.new order_params )
 	end
 
 	def destroy
-		order = Order.find params[:id]
-		order.destroy
-		render json: {}
+		respond_with( Order.destroy params[:id] )
 	end
-
 
 	private
 
-		def new_order_params
-			params.permit(:price, :size, :side)
-		end
-
 		def order_params
-			params.require(:order).permit(:price, :size, :side, :state)
+			params.permit(:price, :size, :side, :state, :user_id)
 		end
 
 end

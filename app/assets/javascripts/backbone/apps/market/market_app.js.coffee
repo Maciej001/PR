@@ -7,7 +7,6 @@
 			new MarketApp.Show.Controller
 
 		newOrder: (region) -> 
-			console.log "DEBUG: callujemy z regionem", region
 			new MarketApp.New.Controller
 				region: region
 

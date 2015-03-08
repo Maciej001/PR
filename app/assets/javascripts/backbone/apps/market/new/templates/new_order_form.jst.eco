@@ -4,8 +4,8 @@
 		<div class="large-12 columns">
 			<label>What do you want to do?</label>
 			<div class="large-6">
-      	<input type="radio" name="side" value="Buy" 	id="buy" checked="checked">	<label for="buy" >Buy</label>
-      	<input type="radio" name="side" value="Sell" 	id="sell"><label for="sell">Sell</label>
+      	<input type="radio" name="side" value="0" 	id="buy" checked="checked">	<label for="buy" >Buy</label>
+      	<input type="radio" name="side" value="1" 	id="sell"><label for="sell">Sell</label>
 			</div>
 		</div>
 	</div>

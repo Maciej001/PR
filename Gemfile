@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.1.4'
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 2.1'
 
 gem 'devise'
 gem 'simple_token_authentication'
@@ -15,7 +15,6 @@ gem 'rabl'
 gem 'oj'
 gem 'gon'
 gem 'js-routes'
-gem 'spinjs-rails'
 
 gem 'sprockets', '~> 2.12'
 gem 'sass-rails'

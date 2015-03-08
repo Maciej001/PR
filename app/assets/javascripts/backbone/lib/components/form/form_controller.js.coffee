@@ -3,7 +3,6 @@
 	class Form.Controller extends App.Controllers.Application
 
 		initialize: (options = {}) ->
-			console.log "DEBUG: form controller options", options
 			@contentView = options.view
 			@formLayout = @getFormLayout options.config
 
@@ -16,6 +15,7 @@
 
 		formSubmit: ->
 			data = Backbone.Syphon.serialize @formLayout 
+			
 			model = @formLayout.model
 			collection = @contentView.collection
 
