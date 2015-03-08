@@ -1,4 +1,7 @@
 #home-page#layout
 	= render 'header'
 	= render 'main'
-= render 'footer'
+	
+
+- if user_signed_in?
+	= render 'footer'
