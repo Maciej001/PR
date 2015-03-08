@@ -8,7 +8,7 @@
 //= require radio.shim
 //= require backbone.sync.rails
 //= require js-routes
-//= require syphon
+//= require backbone.syphon
 //= require backbone-routefilter
 
 //= require_tree ./config

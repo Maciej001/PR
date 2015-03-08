@@ -4,6 +4,7 @@
 		
 		initialize: ->
 			orders = App.entitiesBus.request "get:active:orders"
+			console.log orders
 
 			@layoutView = @getLayoutView()
 

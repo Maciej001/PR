@@ -1,86 +1,40 @@
 @Payrollsio.module "Entities", (Entities, App, Backbone, Marionette, $, _) ->
 
-	class Entities.Model extends Backbone.Model
+  class Entities.Model extends Backbone.Model
 
-		destroy: (options = {}) ->
-			# wait = true: waits    for the server to respond before
-			# removing the model from the collection
-			_.defaults options,
-				wait: true
+    destroy: (options = {}) ->
+      _.defaults options,
+        wait: true
 
-			# setting _destroy on the model allows us to code nice 
-			# implementation for destruction: check views/base/view.js.coffee
-			@set _destroy: true
+      @set _destroy: true
+      super options
 
-			console.log "debug: destroying: ", options
+    isDestroyed: ->
+      @get "_destroy"
 
-			super options
+    save: (data, options = {}) ->
+      isNew = @isNew()
 
-		isDestroyed: -> 
-			@get "_destroy"
+      _.defaults options,
+        wait: true
+        success: _.bind(@saveSuccess, @, isNew, options.collection)
+        error: _.bind(@saveError, @)
 
-		# Override default Backbone save method, setting wait: true
-		# We will wait for server before setting the new attributes
-		# on the model.
-		# Additionally we will fire custom event when model is saved.
-		# Collection can be passed in options so you can then update it.
-		save: (data, options = {}) =>
-			isNew = @isNew()
+      @unset "_errors"
+      super data, options
 
-			console.log options
-			
-			_.defaults options,
-				 # wait for the server before setting the new 
-				 # attribus on the model
-				# wait: true
-				isNew: isNew
+    saveSuccess: (isNew, collection) =>
+      console.info "success", @, isNew
+      if isNew ## model is being created
+        collection.add @ if collection
+        collection.trigger "model:created", @ if collection
+        @trigger "created", @
+      else ## model is being updated
+        collection ?= @collection ## if model has colelction property defined, use that if no collection
+        collection.trigger "model:updated", @ if collection
+        @trigger "updated", @
 
-				# save method accepts 'success' and 'error' callback functions 
-				# in the options hash which will be passed the 
-				# arguments(model, response, options).
-				success: (model, response, options) =>
-					@saveSuccess model, response, options
-
-				error: 	_.bind(@saveError, @)
-
-			# remove _errors attribute  attached to model  
-			@unset "_errors"
-
-			super data, options
-
-		saveSuccess: (model, response, options={}) =>
-			isNew = options.isNew
-			collection = options.collection
-
-			if isNew 
-				# add model to the collection
-				collection.add @ if collection
-
-				# trigger event on model (@), that informs 
-				# about adding model to the collection
-				collection.trigger "model:created", @ if collection
-
-				@trigger "created", @, response
-			else
-				# if collection was passed use: collection
-				# if not use @collection property that is already on that model
-				collection ?= @collection
-				collection.trigger "model:updated", @ if collection
-
-				# model is being updated
-				@trigger "updated", @
-
-		saveError: (model, xhr, options = {}) ->
-			# We are not passing any arguments so it will recieve default 
-			# arguments model, response, options
-			#
-			# set(attributes, [options]) sets hash of attributes on the model
-			# "change:_errors" is triggered and we can catch it in FormWrapper
-			# view. Instead we could just trigger an event and catch it elsewhere
-			@set _errors: xhr.responseJSON?.errors unless xhr.status is 500 or xhr.status is 404
-
-			false
-
-			# don'f forget to unset before next submit of the form. On submit all 
-			# error messages should disapear from the form. 
+    saveError: (model, xhr, options) ->
+      ## set errors directly on the model unless status returned was 500 or 404
+      @set _errors: $.parseJSON(xhr.responseText)?.errors unless xhr.status is 500 or xhr.status is 404
 

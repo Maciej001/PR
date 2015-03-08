@@ -2,7 +2,7 @@
 
 	<h4>New Order</h4>
 
-	<div class="row">
+<!-- 	<div class="row">
 		<div class="large-12 columns">
 			<label>What do you want to do?</label>
 			<div class="large-6">
@@ -10,7 +10,7 @@
       	<input type="radio" name="side" value="Sell" 	id="sell"><label for="sell">Buy</label>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="row">
 		<div class="large-12 columns">

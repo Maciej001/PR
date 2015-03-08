@@ -1,6 +1,12 @@
 class Order < ActiveRecord::Base
 	belongs_to :user
 
+
+	# There is a problem in 4.1 Rails
+	# Active record throws an Argument Errorin RailsAdmin::MainController#new 
+	# '1' is not a valid state
+	# it has been solved by gist from https://github.com/sferik/rails_admin/issues/1993
+	# added in config/initializers/rails_enum.rb
 	enum side: 	[:bid, :offer]
 	enum state: [:active, :cancelled, :executed]
 
