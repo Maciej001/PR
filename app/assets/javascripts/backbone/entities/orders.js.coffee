@@ -4,7 +4,8 @@
 	# 	urlRoot: -> Routes.orders_path()
 
 	class Entities.Order extends App.Entities.Model
-		urlRoot: -> Routes.orders_path()
+		urlRoot: "/orders"
+
 
 	class Entities.OrdersCollection extends App.Entities.Collection
 		model: Entities.Order
@@ -37,4 +38,5 @@
 
 
 	App.entitiesBus.reply "new:order:entity", ->
-		API.newOrderEntity()
+		API.newOrderEntity
+			user_id: App.current_user

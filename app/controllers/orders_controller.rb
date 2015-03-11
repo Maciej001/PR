@@ -1,6 +1,10 @@
 class OrdersController < ActionController::Base
 	respond_to :json
 
+	def new
+		respond_with Order.new
+	end
+
 	def index
 		respond_with Order.all
 	end
@@ -14,7 +18,7 @@ class OrdersController < ActionController::Base
 	end
 
 	def create
-		respond_with( Order.new order_params )
+		respond_with( Order.create order_params )
 	end
 
 	def destroy
