@@ -28,11 +28,13 @@
 	#
 	# Item view
 	class Show.ListOrderItem extends App.Views.ItemView
-		template: 	"market/show/list_order_item"
+		template: 	"market/show/order_item"
 		tagName: 		"tr"
 
 	# Composite view
-	class Show.ListOrders extends App.Views.CompositeView
+	class Show.ListOrdersView extends App.Views.CompositeView
+		model: 								Entities.Order
+		collection: 					Entities.OrdersCollection
 		template:							"market/show/list_orders"
 		childView:						Show.ListOrderItem
 		childViewContainer: 	"tbody"

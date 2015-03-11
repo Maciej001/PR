@@ -4,8 +4,6 @@
 		
 		initialize: ->
 			orders = App.entitiesBus.request "get:active:orders"
-			
-			console.log "Oders fetched?", orders
 
 			@layoutView = @getLayoutView()
 
@@ -13,13 +11,14 @@
 				@ordersRegion()
 				@chartRegion() 
 				@sessionRegion()
-				@listOrdersRegion()
- 
+				@listOrdersRegion orders
+
 			@show @layoutView
 
 
-		listOrdersRegion: ->
-			ordersListView = @getListOrdersView()
+		listOrdersRegion: (orders) ->
+			ordersListView = @getListOrdersView orders
+			@show ordersListView, region: @layout.listOrdersRegion
 
 		ordersRegion: ->
 			ordersView = @getOrdersView()
@@ -41,7 +40,7 @@
 			@show sessionView, region: @layoutView.sessionRegion
 
 		getListOrdersView: ->
-			new: 
+			new Show.ListOrdersView
 
 		getOrdersView: ->
 			new Show.Orders 

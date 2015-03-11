@@ -1,6 +1,6 @@
 <!-- Side -->
 <td>
-	<% if @order.status == '0' %>
+	<% if status == '0' %>
 		"Buy"
 	<% else %>
 		"Sell"
@@ -9,9 +9,9 @@
 
 <!-- Status -->
 <td>
-	<% if @order.state == '0' %>
+	<% if state == '0' %>
 		"Live"
-	<% else if @order.state == '1' %>
+	<% else if state == '1' %>
 		"Cancelled"
 	<% else %>
 		"Executed"
@@ -19,16 +19,16 @@
 </td>
 
 <!-- Price -->
-<td><%= @order.price %></td>
+<td><%= price %></td>
 
 <!-- Size -->
-<td><%= @order.size %></td>
+<td><%= size %></td>
 
 <!-- Created -->
-<td><%= @order.created_at %></td>
+<td><%= created_at %></td>
 
 <!-- Updated -->
-<td><%= @order.updated_at %></td>
+<td><%= updated_at %></td>
 
 <!-- Actions -->
 <td>
