@@ -8,7 +8,7 @@
 			newOrderRegion:		"#new-order-region"
 			chartRegion: 			"#chart-region"
 			sessionRegion: 		"#session-region"
-			listOrderRegion:	"#list-order-region"
+			listOrdersRegion:	"#list-orders-region"
 
 	class Show.Orders extends App.Views.ItemView
 		template: "market/show/_orders" 
@@ -22,20 +22,14 @@
 	class Show.Session extends App.Views.ItemView
 		template: "market/show/_session"
 
+	# List Orders - Composite View
 
-
-	# List Orders
-	#
-	# Item view
 	class Show.ListOrderItem extends App.Views.ItemView
-		template: 	"market/show/order_item"
+		template: 	"market/show/_order_item"
 		tagName: 		"tr"
 
-	# Composite view
 	class Show.ListOrdersView extends App.Views.CompositeView
-		model: 								Entities.Order
-		collection: 					Entities.OrdersCollection
-		template:							"market/show/list_orders"
+		template:							"market/show/_list_orders"
 		childView:						Show.ListOrderItem
 		childViewContainer: 	"tbody"
 

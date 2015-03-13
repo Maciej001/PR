@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.4'
-gem 'jquery-rails', '~> 2.1'
+gem 'rails'
+gem 'jquery-rails', '~> 4.0'
 
 gem 'devise'
 gem 'simple_token_authentication'

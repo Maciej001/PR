@@ -1,34 +1,24 @@
 <!-- Side -->
 <td>
-	<% if status == '0' %>
-		"Buy"
-	<% else %>
-		"Sell"
-	<% end %>
+	<%= @side %>
 </td>
 
 <!-- Status -->
 <td>
-	<% if state == '0' %>
-		"Live"
-	<% else if state == '1' %>
-		"Cancelled"
-	<% else %>
-		"Executed"
-	<% end %>
+	<%= @state %>
 </td>
 
 <!-- Price -->
-<td><%= price %></td>
+<td><%= @price %></td>
 
 <!-- Size -->
-<td><%= size %></td>
+<td><%= @size %></td>
 
 <!-- Created -->
-<td><%= created_at %></td>
+<td><%= @created_at %></td>
 
 <!-- Updated -->
-<td><%= updated_at %></td>
+<td><%= @updated_at %></td>
 
 <!-- Actions -->
 <td>

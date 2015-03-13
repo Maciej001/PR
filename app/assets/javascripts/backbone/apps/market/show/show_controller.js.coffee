@@ -15,10 +15,14 @@
 
 			@show @layoutView
 
+		delay: (ms, func) -> 
+			setTimeout func, ms
 
 		listOrdersRegion: (orders) ->
-			ordersListView = @getListOrdersView orders
-			@show ordersListView, region: @layout.listOrdersRegion
+			@delay 2000, =>
+				ordersListView = @getListOrdersView orders
+				console.log ordersListView
+				@show ordersListView, region: @layoutView.listOrdersRegion
 
 		ordersRegion: ->
 			ordersView = @getOrdersView()
@@ -39,8 +43,9 @@
 			sessionView = @getSessionView()
 			@show sessionView, region: @layoutView.sessionRegion
 
-		getListOrdersView: ->
-			new Show.ListOrdersView
+		getListOrdersView: (orders) ->
+			new Show.ListOrdersView 
+				collection: orders
 
 		getOrdersView: ->
 			new Show.Orders 
