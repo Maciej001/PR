@@ -6,6 +6,7 @@ class OrdersController < ActionController::Base
 	end
 
 	def index
+		sleep 2
 		respond_with Order.all
 	end
 

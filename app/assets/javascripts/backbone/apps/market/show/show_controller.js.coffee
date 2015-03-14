@@ -3,23 +3,31 @@
 	class Show.Controller extends App.Controllers.Application   
 		
 		initialize: ->
-			orders = App.entitiesBus.request "get:active:orders"
-
+			@orders_fetching = App.entitiesBus.request "get:active:orders"
+			console.log "fetching orders from server..."
+			
 			@layoutView = @getLayoutView()
-
+			
 			@listenTo @layoutView, "show", =>
 				@ordersRegion()
 				@chartRegion() 
 				@sessionRegion()
-				@listOrdersRegion orders
+
+				@orders_fetching.done (orders) =>
+					
+
+					@listOrdersRegion orders
 
 			@show @layoutView
+
+			
 
 		delay: (ms, func) -> 
 			setTimeout func, ms
 
 		listOrdersRegion: (orders) ->
-			@delay 2000, =>
+			@delay 200, =>
+				console.log "orders: ", orders
 				ordersListView = @getListOrdersView orders
 				console.log ordersListView
 				@show ordersListView, region: @layoutView.listOrdersRegion

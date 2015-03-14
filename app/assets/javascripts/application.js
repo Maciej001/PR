@@ -10,6 +10,7 @@
 //= require js-routes
 //= require backbone.syphon
 //= require backbone-routefilter
+//= require moment
 
 //= require_tree ./config
 //= require backbone/app

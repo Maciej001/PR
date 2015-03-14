@@ -14,11 +14,15 @@
 	API = 
 
 		getActiveOrders: ->
+			defer = $.Deferred()
 			orders = new Entities.OrdersCollection
 			orders.fetch
 				reset: true
+				success: ->
+					defer.resolve(orders)
+			defer.promise()
 
-			orders
+			# orders
 
 		getOrder: (id) ->
 			order = new Entities.Order

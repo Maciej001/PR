@@ -1,0 +1,37 @@
+table {
+	border: none;
+}
+
+td, table tr td {
+	padding: 2px 10px;
+	line-height: 0.8rem;
+	color: $gray;
+}
+
+table tr th, th {
+	color: $dark-gray;
+}
+
+table button.alert, table .button.alert {
+	color: $gray;
+	background: $font-very-light-gray;
+	&:hover {
+		background: $red;
+	}
+}
+
+table button.alert, table .button {
+	color: $gray;
+	background: $font-very-light-gray;
+	&:hover {
+		background: $blue;
+	}
+}
+
+table .fi-arrow-up {
+	color: $green;
+}
+
+table .fi-arrow-down {
+	color: $red;
+}

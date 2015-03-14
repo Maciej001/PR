@@ -1,5 +1,10 @@
 <!-- Side -->
-<td>
+<td> 
+	<% if @side == 'bid': %>
+		<i class='fi-arrow-up'></i>
+	<% else: %>
+		<i class='fi-arrow-down'></i>
+	<% end %>
 	<%= @side %>
 </td>
 
@@ -15,15 +20,15 @@
 <td><%= @size %></td>
 
 <!-- Created -->
-<td><%= @created_at %></td>
+<td><%= moment(@created_at).format('D MMM, H:MM') %></td>
 
 <!-- Updated -->
-<td><%= @updated_at %></td>
+<td><%= moment(@updated_at).format('D MMM, H:MM') %></td>
 
 <!-- Actions -->
 <td>
 	<ul>
-		<li class="button">Update</li>
-		<li class="button">Delete</li>
+		<li class="button tiny">Update</li>
+		<li class="button tiny alert">Delete</li>
 	</ul>
 </td>
