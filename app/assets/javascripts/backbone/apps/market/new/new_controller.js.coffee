@@ -3,13 +3,10 @@
 	class New.Controller extends App.Controllers.Application
 
 		initialize: (args) ->
-			{ region } = args
+			{ region, collection } = args
 			
 			new_order = App.entitiesBus.request "new:order:entity"
-
 			new_order.set "user_id", String(App.currentUser.id)
-
-			console.log "new order ", new_order
 
 			newView = @getNewView new_order
 
@@ -17,7 +14,7 @@
 				@region.reset() 
 
 			@listenTo new_order, "created", ->
-				console.log "new order created"
+				collection.add new_order
 
 			formView = App.mainBus.request "form:wrapper", newView
 			@show formView  

@@ -6,8 +6,8 @@ class OrdersController < ActionController::Base
 	end
 
 	def index
-		sleep 2
-		respond_with Order.all
+		# returns collection of Orders for current_user
+		respond_with Order.where("user_id = ?", current_user.id)
 	end
 
 	def show

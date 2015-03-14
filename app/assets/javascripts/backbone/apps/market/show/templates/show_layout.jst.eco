@@ -1,7 +1,11 @@
 <div class="row">
 	
 	<div class="small-6 large-6 columns">
-		<div id="orders-region"></div>
+		<div class="row">
+			<div class="small-12 large-12 columns">
+				<div id="orders-region"></div>
+			</div>
+		</div>
 		<div id="new-order-region"></div>
 	</div>
 

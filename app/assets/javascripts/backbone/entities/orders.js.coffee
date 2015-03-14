@@ -10,6 +10,7 @@
 	class Entities.OrdersCollection extends App.Entities.Collection
 		model: Entities.Order
 		url: 	Routes.orders_path()
+		comparator: 'price'
 
 	API = 
 
@@ -21,8 +22,6 @@
 				success: ->
 					defer.resolve(orders)
 			defer.promise()
-
-			# orders
 
 		getOrder: (id) ->
 			order = new Entities.Order

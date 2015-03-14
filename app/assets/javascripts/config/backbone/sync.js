@@ -90,7 +90,7 @@
 
     // Make the request.
     response = $.ajax(params);
-    console.log("sync responds with: ", response);
+    // console.log("sync responds with: ", response);
     response;
   }
 

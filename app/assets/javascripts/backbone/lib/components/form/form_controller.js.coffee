@@ -15,19 +15,12 @@
 
 		formSubmit: ->
 			data = Backbone.Syphon.serialize @formLayout 
-
 			model = @contentView.model
-			console.log "mode in formSubmit", model
 			collection = @contentView.collection
 
 			@processFormSubmit data, model, collection
 
 		processFormSubmit: (data, model, collection) ->
-
-			console.log "DEBUG: processing submit"
-			console.log "model", model
-			console.log "data", data
-
 			model.save data,  
 				collection: collection 
 
