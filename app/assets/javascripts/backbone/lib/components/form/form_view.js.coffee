@@ -57,6 +57,12 @@
 			buttons: 	@buttons?.toJSON() ? false
 
 		# to focus on first element of the form
+
+		remove: ->
+			#sliding up any form when removing
+			@$el.slideUp 250, ->
+				@remove()
+
 		onShow: ->
 			# defers invoking the function until the current call stack 
 			# has cleared

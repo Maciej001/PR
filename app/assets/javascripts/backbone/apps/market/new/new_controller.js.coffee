@@ -14,6 +14,7 @@
 				@region.reset() 
 
 			@listenTo new_order, "created", ->
+				formView.remove()
 				collection.add new_order
 
 			formView = App.mainBus.request "form:wrapper", newView
