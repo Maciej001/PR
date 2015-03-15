@@ -1,15 +1,19 @@
 @Payrollsio.module "MarketApp.Show", (Show, App, Backbone, Marionette, $, _) ->
 	
 	class Show.Controller extends App.Controllers.Application 
-		
-		initialize: ->
+		@all_orders = {}
+		@best_bid = 0 
+		@best_offer = 1000
+
+		initialize: =>
 			@orders_fetching = App.entitiesBus.request "get:active:orders"
 			
 			@layoutView = @getLayoutView()
 			
-			@listenTo @layoutView, "show", =>
+			@listenTo @layoutView, "show", ->
 				@orders_fetching.done (orders) =>
 					@all_orders = orders
+					console.log "and now all_orders", @all_orders
 
 					@bids = @getBids orders
 					@bids.comparator = (bid) ->
@@ -53,7 +57,6 @@
 			@show ordersListView, region: @layoutView.listOrdersRegion
 
 			@listenTo ordersListView, "new:order:clicked", ->
-				console.log "new order clicked"
 				@newOrderClicked()
 
 			@listenTo ordersListView, "childview:delete:order:clicked", (args) ->

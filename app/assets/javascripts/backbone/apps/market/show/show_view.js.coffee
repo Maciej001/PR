@@ -38,12 +38,10 @@
 		tagName: 		"tr"
 
 		ui:				
-			"update":			".update-button"
 			"delete":			".delete-button"
 
 		triggers: 
 			"click @ui.delete":			"delete:order:clicked"
-			"click @ui.update": 		"update:order:clicked"
 
 	class Show.ListOrdersView extends App.Views.CompositeView
 		template:							"market/show/_list_orders"
