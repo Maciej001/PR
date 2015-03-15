@@ -7,7 +7,7 @@ class OrdersController < ActionController::Base
 
 	def index
 		# returns collection of Orders for current_user
-		respond_with Order.where("user_id = ?", current_user.id)
+		respond_with Order.all
 	end
 
 	def show

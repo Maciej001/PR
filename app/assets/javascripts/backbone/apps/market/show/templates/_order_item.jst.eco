@@ -19,16 +19,12 @@
 <!-- Size -->
 <td><%= @size %></td>
 
-<!-- Created -->
-<td><%= moment(@created_at).format('D MMM, H:MM') %></td>
-
 <!-- Updated -->
 <td><%= moment(@updated_at).format('D MMM, H:MM') %></td>
 
 <!-- Actions -->
 <td>
 	<ul>
-		<li class="button tiny">Update</li>
-		<li class="button tiny alert">Delete</li>
+		<li class="button tiny alert delete-button">Delete</li>
 	</ul>
 </td>

@@ -7,9 +7,8 @@
 					<tr>
 						<th>Bid/Offer</th>
 						<th>Status</th>
-						<th>Price</th>
+						<th class='header-price'>Price</th>
 						<th>Size</th>
-						<th>Created</th>
 						<th>Updated</th>
 						<th></th>
 					</tr>

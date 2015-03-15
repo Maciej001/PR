@@ -13,18 +13,34 @@
 				@sessionRegion()
 
 				@orders_fetching.done (orders) =>
-					@my_orders = orders
+					@all_orders = orders
+					
+					@my_orders  = @getMyOrders orders
 					@listOrdersRegion @my_orders
 
 			@show @layoutView
+
+		getMyOrders: (orders) ->
+			my_orders_array = orders.where user_id: App.currentUser.id
+			App.entitiesBus.request "get:orders:collection", my_orders_array
 
 		delay: (ms, func) -> 
 			setTimeout func, ms
 
 		listOrdersRegion: (orders) ->
-			@delay 200, =>
-				ordersListView = @getListOrdersView orders
-				@show ordersListView, region: @layoutView.listOrdersRegion
+			ordersListView = @getListOrdersView orders
+			@show ordersListView, region: @layoutView.listOrdersRegion
+
+			@listenTo ordersListView, "childview:delete:order:clicked", (args) ->
+				{ model } = args
+				# remove model from database
+				model.destroy()
+
+				# remove model form collection
+				model.collection.remove(model)
+
+			@listenTo ordersListView, "orders:sort:by:price", (args) ->
+
 
 		ordersRegion: ->
 			ordersView = @getOrdersView()

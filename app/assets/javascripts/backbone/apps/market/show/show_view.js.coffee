@@ -28,10 +28,24 @@
 		template: 	"market/show/_order_item"
 		tagName: 		"tr"
 
+		ui:					
+			"update":		".update-button"
+			"delete":		".delete-button"
+
+		triggers: 
+			"click @ui.delete":		"delete:order:clicked"
+			"click @ui.update": 	"update:order:clicked"
+
 	class Show.ListOrdersView extends App.Views.CompositeView
 		template:							"market/show/_list_orders"
 		childView:						Show.ListOrderItem
 		childViewContainer: 	"tbody"
+
+		ui:
+			"sort-by-price": 		"th .header-price"
+
+		triggers: 
+			"click @ui.sort-by-price": ".header-price"
 
 
 

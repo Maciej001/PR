@@ -20,6 +20,8 @@
 			formView = App.mainBus.request "form:wrapper", newView
 			@show formView  
 
+		
+
 		getNewView: (new_order) ->
 			new New.OrderView
 				model: new_order

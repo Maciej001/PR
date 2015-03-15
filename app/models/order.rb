@@ -7,7 +7,7 @@ class Order < ActiveRecord::Base
 	# it has been solved by gist from https://github.com/sferik/rails_admin/issues/1993
 	# added in config/initializers/rails_enum.rb
 	enum side: 	[:bid, :offer]
-	enum state: [:active, :cancelled, :executed]
+	enum state: [:active, :executed]
 
 	validates :price, presence: true, numericality: { greater_than: 0 }
 	validates :size, 	presence: true, numericality: { greater_than: 0 }
