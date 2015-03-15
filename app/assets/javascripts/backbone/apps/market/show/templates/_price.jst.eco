@@ -1,4 +1,5 @@
-<button>
-	<%= @price %>
+<button class="btn-price">
+	<span class="price"><%= Number(@price).toFixed(0) %></span> 
+	<span class="size" ><%= Number(@size).toFixed(0) %></span>
 </button>
 

@@ -14,10 +14,10 @@
 </td>
 
 <!-- Price -->
-<td><%= @price %></td>
+<td><%= Number(@price).toFixed(0) %></td>
 
 <!-- Size -->
-<td><%= @size %></td>
+<td><%= Number(@size).toFixed(0) %></td>
 
 <!-- Updated -->
 <td><%= moment(@updated_at).format('D MMM, H:MM') %></td>

@@ -14,6 +14,51 @@
 	}
 }
 
+#offers-region, #bids-region {
+	ul li button {
+		background: $vlight-gray;
+		color: $gray;
+		width: 10em;
+		margin-bottom: 1px;
+	}
+}
+
+#bids-region {
+	ul li {
+		&:first-child button {
+			background: $red;
+			color: white;
+
+			&:hover {
+				background: darken($red, 12%);
+			}
+		}
+	}
+}
+
+#offers-region {
+	ul li {
+		&:first-child button {
+			background: $green;
+			color: white;
+
+			&:hover {
+				background: darken($green, 10%);
+			}
+		}
+	}
+}
+
+.price {
+	font-size: 1.8em;
+	margin-right: 5px;
+}
+
+.bid-offer {
+	width: 100%;
+	text-align: center;
+}
+
 
 	
 	

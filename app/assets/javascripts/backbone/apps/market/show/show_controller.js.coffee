@@ -12,9 +12,17 @@
 					@all_orders = orders
 
 					@bids = @getBids orders
+					@bids.comparator = (bid) ->
+						-bid.get('price')
+
+					@bids.sort()
 					@bidsRegion @bids
 
 					@offers = @getOffers orders
+					@offers.comparator = (offer) ->
+						+offer.get('price')
+						
+					@offers.sort()
 					@offersRegion @offers
 					
 					@my_orders  = @getMyOrders orders
@@ -31,11 +39,11 @@
 
 		getBids: (orders) ->
 			bids = orders.where side: 'bid'
-			App.entitiesBus.request "get:orders:collection", bids
+			App.entitiesBus.request "get:bids:collection", bids
 
 		getOffers: (orders) ->
 			offers = orders.where side: 'offer'
-			App.entitiesBus.request "get:orders:collection", offers
+			App.entitiesBus.request "get:offers:collection", offers
 
 		delay: (ms, func) -> 
 			setTimeout func, ms
