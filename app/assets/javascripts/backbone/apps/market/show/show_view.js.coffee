@@ -4,17 +4,26 @@
 		template: "market/show/show_layout"
 
 		regions: 
-			ordersRegion:		 	"#orders-region"
+			bidsRegion:		 		"#bids-region"
+			offersRegion: 		"#offers-region"
 			newOrderRegion:		"#new-order-region"
 			chartRegion: 			"#chart-region"
 			sessionRegion: 		"#session-region"
 			listOrdersRegion:	"#list-orders-region"
 
-	class Show.Orders extends App.Views.ItemView
-		template: "market/show/_orders" 
+	class Show.Price extends App.Views.ItemView
+		template: "market/show/_price"
+		tagName:	"li"
 
-		triggers: 
-			"click #new-order": "new:order:clicked"
+	class Show.Bids extends App.Views.CompositeView
+		template: 					"market/show/_bids" 
+		childView: 					Show.Price
+		childViewContainer:	"ul"
+
+	class Show.Offers extends App.Views.CompositeView
+		template: "market/show/_offers" 
+		childView: 					Show.Price
+		childViewContainer:	"ul"
 
 	class Show.Chart extends App.Views.ItemView
 		template: "market/show/_chart"
@@ -28,24 +37,21 @@
 		template: 	"market/show/_order_item"
 		tagName: 		"tr"
 
-		ui:					
-			"update":		".update-button"
-			"delete":		".delete-button"
+		ui:				
+			"update":			".update-button"
+			"delete":			".delete-button"
 
 		triggers: 
-			"click @ui.delete":		"delete:order:clicked"
-			"click @ui.update": 	"update:order:clicked"
+			"click @ui.delete":			"delete:order:clicked"
+			"click @ui.update": 		"update:order:clicked"
 
 	class Show.ListOrdersView extends App.Views.CompositeView
 		template:							"market/show/_list_orders"
 		childView:						Show.ListOrderItem
 		childViewContainer: 	"tbody"
 
-		ui:
-			"sort-by-price": 		"th .header-price"
-
 		triggers: 
-			"click @ui.sort-by-price": ".header-price"
+			"click #new-order":	"new:order:clicked"
 
 
 

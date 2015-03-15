@@ -8,15 +8,20 @@
 			@layoutView = @getLayoutView()
 			
 			@listenTo @layoutView, "show", =>
-				@ordersRegion()
-				@chartRegion() 
-				@sessionRegion()
-
 				@orders_fetching.done (orders) =>
 					@all_orders = orders
+
+					@bids = @getBids orders
+					@bidsRegion @bids
+
+					@offers = @getOffers orders
+					@offersRegion @offers
 					
 					@my_orders  = @getMyOrders orders
 					@listOrdersRegion @my_orders
+					
+					@chartRegion() 
+					@sessionRegion()
 
 			@show @layoutView
 
@@ -24,12 +29,24 @@
 			my_orders_array = orders.where user_id: App.currentUser.id
 			App.entitiesBus.request "get:orders:collection", my_orders_array
 
+		getBids: (orders) ->
+			bids = orders.where side: 'bid'
+			App.entitiesBus.request "get:orders:collection", bids
+
+		getOffers: (orders) ->
+			offers = orders.where side: 'offer'
+			App.entitiesBus.request "get:orders:collection", offers
+
 		delay: (ms, func) -> 
 			setTimeout func, ms
 
 		listOrdersRegion: (orders) ->
 			ordersListView = @getListOrdersView orders
 			@show ordersListView, region: @layoutView.listOrdersRegion
+
+			@listenTo ordersListView, "new:order:clicked", ->
+				console.log "new order clicked"
+				@newOrderClicked()
 
 			@listenTo ordersListView, "childview:delete:order:clicked", (args) ->
 				{ model } = args
@@ -41,14 +58,17 @@
 
 			@listenTo ordersListView, "orders:sort:by:price", (args) ->
 
-
-		ordersRegion: ->
-			ordersView = @getOrdersView()
-
-			@listenTo ordersView, "new:order:clicked", =>
-				@newOrderClicked()
-
+		ordersRegion: (bids, offers) ->
+			ordersView = @getOrdersLayout()
 			@show ordersView, region: @layoutView.ordersRegion
+
+		bidsRegion: (bids) ->
+			bidsView = @getBidsView bids
+			@show bidsView, region: @layoutView.bidsRegion
+
+		offersRegion: (offers) ->
+			offersView = @getOffersView offers
+			@show offersView, region: @layoutView.offersRegion
 
 		newOrderClicked: ->
 			App.mainBus.trigger "new:order:form", @layoutView.newOrderRegion, @my_orders
@@ -65,8 +85,13 @@
 			new Show.ListOrdersView 
 				collection: orders
 
-		getOrdersView: ->
-			new Show.Orders 
+		getBidsView: (bids) ->
+			new Show.Bids
+				collection: bids
+
+		getOffersView: (offers) ->
+			new Show.Offers 
+				collection: offers
 
 		getChartView: ->
 			new Show.Chart

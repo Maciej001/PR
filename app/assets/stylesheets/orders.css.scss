@@ -1,0 +1,19 @@
+.my-orders h5 {
+	display: inline-block;
+	padding: 5px 0;
+}
+
+#new-order.button.tiny {
+	display: inline-block;
+	margin-left: 20px;
+	color: $gray;
+	background: $font-very-light-gray;
+	&:hover {
+		color: white;
+		background: $yellow;
+	}
+}
+
+
+	
+	

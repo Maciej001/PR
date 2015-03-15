@@ -1,0 +1,4 @@
+<button>
+	<%= @price %>
+</button>
+

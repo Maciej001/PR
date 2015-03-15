@@ -1,6 +1,13 @@
 <div class="row">
 	<div class="small-12 large-12 columns">
-		<h4>Your orders</h4>
+		
+		<div class="row">
+			<div class="small-12 large-12 columns my-orders">
+				<h5>Your orders</h5>		
+				<button id="new-order" class="button tiny">New order</button4>
+			</div>
+		</div>
+
 		<table>
 			<thead>
 				<tr>

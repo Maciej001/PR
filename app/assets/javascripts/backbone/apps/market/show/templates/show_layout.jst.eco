@@ -1,12 +1,21 @@
 <div class="row">
 	
 	<div class="small-6 large-6 columns">
+		
 		<div class="row">
 			<div class="small-12 large-12 columns">
-				<div id="orders-region"></div>
+				<h4>Current Price</h4>	
+				
+				<div class="row">
+					<div class="small-6 large-6 columns" id="bids-region"></div>	
+					<div class="small-6 large-6 columns" id="offers-region"></div>	
+				</div>		
+
 			</div>
 		</div>
+
 		<div id="new-order-region"></div>
+
 	</div>
 
 	<div class="small-6 large-6 columns">
