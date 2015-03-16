@@ -16,6 +16,7 @@
 			@listenTo new_order, "created", ->
 				formView.remove()
 				collection.add new_order
+				App.mainBus.trigger "new:order:added", new_order
 
 			formView = App.mainBus.request "form:wrapper", newView
 			@show formView  

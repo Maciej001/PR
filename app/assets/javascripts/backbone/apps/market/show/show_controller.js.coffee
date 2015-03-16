@@ -17,19 +17,25 @@
 				@orders_fetching.done (orders) =>
 					@all_orders = orders
 
-					@bids = @getSortedBids orders 
-					@bidsRegion @bids
-
-					@offers = @getSortedOffers orders 
-					@offersRegion @offers
+					@refreshMarket()	
 					
-					@my_orders  = @getMyOrders orders
+					@my_orders  = @getMyOrders @all_orders
 					@listOrdersRegion @my_orders
 					
 					@chartRegion() 
 					@sessionRegion()
 
+			App.mainBus.on "new:order:added", (new_order) =>
+				@addNewOrder new_order
+
 			@show @layoutView
+
+		refreshMarket: ->
+			@bids = @getSortedBids @all_orders 
+			@bidsRegion @bids
+
+			@offers = @getSortedOffers @all_orders 
+			@offersRegion @offers
 
 		getMyOrders: (orders) ->
 			my_orders_array = orders.where user_id: App.currentUser.id
@@ -65,8 +71,11 @@
 
 			@listenTo ordersListView, "childview:delete:order:clicked", (args) ->
 				{ model } = args
+
+				console.log "z jakiej kolekcji remove", model.collection
 				# remove model from database
 				model.destroy()
+
 
 				# remove model form collection
 				model.collection.remove(model)
@@ -116,6 +125,12 @@
 
 		getLayoutView: ->
 			new Show.LayoutView
+
+		addNewOrder: (new_order) ->
+			@all_orders.add new_order
+			@refreshMarket()
+
+
 
 
 
