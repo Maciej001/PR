@@ -1,4 +1,7 @@
 <button class="btn-price">
+	<% if @user_id == Window.currentUser: %>
+		<i class="fi-lightbulb"></i>
+	<% end %>
 	<span class="price"><%= Number(@price).toFixed(0) %></span> 
 	<span class="size" ><%= Number(@size).toFixed(0) %></span>
 </button>

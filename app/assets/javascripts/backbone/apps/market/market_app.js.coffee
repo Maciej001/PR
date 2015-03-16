@@ -13,6 +13,9 @@
 	MarketApp.on "start", ->
 		API.show()
 
+		# Id is used in eco templates to indicate eg. my own bid
+		Window.currentUser = App.currentUser.id
+
 	App.mainBus.on "new:order:form", (region, orders_collection) ->
 		API.newOrder region, orders_collection
 
