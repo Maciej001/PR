@@ -2,8 +2,9 @@
 	
 	class Show.Controller extends App.Controllers.Application 
 		@all_orders = {}
-		@best_bid = 0 
-		@best_offer = 1000
+		@bids = {}
+		@offers = {}
+		@transactions = {}
 
 		initialize: =>
 			@orders_fetching = App.entitiesBus.request "get:active:orders"
@@ -11,22 +12,15 @@
 			@layoutView = @getLayoutView()
 			
 			@listenTo @layoutView, "show", ->
+
+				# one off action on first 'show'
 				@orders_fetching.done (orders) =>
 					@all_orders = orders
-					console.log "and now all_orders", @all_orders
 
-					@bids = @getBids orders
-					@bids.comparator = (bid) ->
-						-bid.get('price')
-
-					@bids.sort()
+					@bids = @getSortedBids orders 
 					@bidsRegion @bids
 
-					@offers = @getOffers orders
-					@offers.comparator = (offer) ->
-						+offer.get('price')
-						
-					@offers.sort()
+					@offers = @getSortedOffers orders 
 					@offersRegion @offers
 					
 					@my_orders  = @getMyOrders orders
@@ -41,13 +35,23 @@
 			my_orders_array = orders.where user_id: App.currentUser.id
 			App.entitiesBus.request "get:orders:collection", my_orders_array
 
-		getBids: (orders) ->
-			bids = orders.where side: 'bid'
-			App.entitiesBus.request "get:bids:collection", bids
+		getSortedBids: (orders) ->
+			bids_collection = App.entitiesBus.request "get:orders:collection", orders.where side: 'bid'
+			
+			bids_collection.comparator = (bid) ->	
+				-bid.get('price')
 
-		getOffers: (orders) ->
-			offers = orders.where side: 'offer'
-			App.entitiesBus.request "get:offers:collection", offers
+			bids_collection.sort()
+			bids_collection
+
+		getSortedOffers: (orders) ->
+			offers_collection = App.entitiesBus.request "get:orders:collection", orders.where side: 'offer'
+			
+			offers_collection.comparator = (offer) ->
+				+offer.get('price')
+
+			offers_collection.sort()
+			offers_collection
 
 		delay: (ms, func) -> 
 			setTimeout func, ms

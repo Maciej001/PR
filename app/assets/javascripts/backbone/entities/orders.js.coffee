@@ -40,12 +40,6 @@
 		getOrdersCollection: (orders) ->
 			new Entities.OrdersCollection orders
 
-		getBidsCollection: (bids) ->
-			new Entities.OrdersCollection bids
-
-		getOffersCollection: (offers) ->
-			new Entities.OrdersCollection offers
-
 	App.entitiesBus.reply "get:active:orders", ->
 		API.getActiveOrders()
 
@@ -59,12 +53,5 @@
 
 	App.entitiesBus.reply "get:orders:collection", (orders) ->
 		API.getOrdersCollection orders
-
-	App.entitiesBus.reply "get:bids:collection", (bids) ->
-		API.getBidsCollection bids		
-
-	App.entitiesBus.reply "get:offers:collection", (offers) ->
-		API.getOffersCollection offers
-
 
 
