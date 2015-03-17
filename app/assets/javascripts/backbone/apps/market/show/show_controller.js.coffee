@@ -72,7 +72,6 @@
 			@listenTo ordersListView, "childview:delete:order:clicked", (args) ->
 				{ model } = args
 
-				console.log "z jakiej kolekcji remove", model.collection
 				# remove model from database
 				model.destroy()
 
@@ -126,9 +125,38 @@
 		getLayoutView: ->
 			new Show.LayoutView
 
+		highest_bid: ->
+			@bids.at(0).get('price')
+
+		lowest_offer: ->
+			@offers.at(0).get('price')
+
+		valid_trade: (new_order) ->
+			if new_order.get('side') is 'offer'
+				# offer price > max bid price
+				if new_order.get('price') > @highest_bid()
+					return false
+				# offer <= max bid  check if 
+				# I am not selling into my bid
+				else 
+					return true
+			# if new_order is to buy 
+			else
+				# if bid is lower than lowest offer 
+				if new_order.get('price') < @lowest_offer()
+					return false
+
+				# if bid >= lowest offer
+				# check if I am not lifting my own offer
+				else
+					return true
+
 		addNewOrder: (new_order) ->
-			@all_orders.add new_order
-			@refreshMarket()
+			if @valid_trade new_order
+				console.log "The trade is ready for execution"
+			else
+				@all_orders.add new_order
+				@refreshMarket()
 
 
 
