@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
 	has_many :orders
+	has_and_belongs_to_many :trades, join_table: 'users_trades'
 
 	# using enum
 	# rails generates helper methods user.user? and user.admin?
