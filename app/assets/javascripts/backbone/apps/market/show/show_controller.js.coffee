@@ -131,30 +131,67 @@
 		lowest_offer: ->
 			@offers.at(0).get('price')
 
+
+		is_bid: (order) ->
+			return true if order.get('side') is 'bid'
+			false
+
+		is_offer: (order) ->
+			return true if order.get('side') is 'offer'
+			false
+
+		trading_with_myself: (new_order) ->
+			if @is_bid new_order
+				return true if @lifting_my_offer new_order
+			else 
+				return true if @hitting_my_bid new_order
+
+			false
+
+		hitting_my_bid: (new_order) ->
+			my_bid_prices = @my_orders.map (order) =>
+				order.get('price') if @is_bid(order)
+			
+			my_highest_bid = _.max( _.compact my_bid_prices	)
+			
+			if my_highest_bid >= new_order.get 'price'
+				return true
+
+			false
+
+		lifting_my_offer: (new_order) ->
+			my_offer_prices = @my_orders.map (order) =>
+				order.get('price') if @is_offer(order)
+			
+			my_lowest_offer = _.min( _.compact my_offer_prices	)
+			
+			if new_order.get('price') >= my_lowest_offer
+				return true
+
+			false
+
 		valid_trade: (new_order) ->
-			if new_order.get('side') is 'offer'
-				# offer price > max bid price
-				if new_order.get('price') > @highest_bid()
-					return false
-				# offer <= max bid  check if 
-				# I am not selling into my bid
-				else 
-					return true
-			# if new_order is to buy 
-			else
-				# if bid is lower than lowest offer 
-				if new_order.get('price') < @lowest_offer()
+			if @is_offer new_order
+				if new_order.get('price') > @highest_bid() or @hitting_my_bid new_order
 					return false
 
-				# if bid >= lowest offer
-				# check if I am not lifting my own offer
-				else
-					return true
+			if @is_bid new_order
+				if new_order.get('price') < @lowest_offer() or @lifting_my_offer new_order
+					return false
 
+			return true
+
+
+		# Function decides what to do with newly submitted order 
 		addNewOrder: (new_order) ->
 			if @valid_trade new_order
-				console.log "The trade is ready for execution"
+				# Execute trade
+				console.log "ready to execute"
+			else if @trading_with_myself new_order
+				console.log "trading with yourself?!"
 			else
+				# save to database
+				console.log "regular order, so save it"
 				@all_orders.add new_order
 				@refreshMarket()
 
