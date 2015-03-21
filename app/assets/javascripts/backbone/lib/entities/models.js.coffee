@@ -24,7 +24,6 @@
       super data, options
 
     saveSuccess: (isNew, collection) =>
-      console.info "success", @, isNew
       if isNew ## model is being created
         collection.add @ if collection
         collection.trigger "model:created", @ if collection

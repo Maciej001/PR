@@ -148,52 +148,69 @@
 
 			false
 
-		hitting_my_bid: (new_order) ->
-			my_bid_prices = @my_orders.map (order) =>
-				order.get('price') if @is_bid(order)
+		hitting_my_bid: (new_order) =>
+			remaining_size = new_order.get('size')
+			new_order_price = parseInt new_order.get('price')
+			answer = false
 			
-			my_highest_bid = _.max( _.compact my_bid_prices	)
-			
-			if my_highest_bid >= new_order.get 'price'
-				return true
+			@bids.models.every (bid) ->
 
-			false
+					bid_price = parseInt bid.get('price')
+
+					return if answer or remaining_size <= 0 or bid_price < new_order_price
+
+					if bid.get('user_id') is new_order.get('user_id')
+						answer = true
+						return
+
+					remaining_size -= parseInt bid.get('size')
+						
+			answer
+
 
 		lifting_my_offer: (new_order) ->
-			my_offer_prices = @my_orders.map (order) =>
-				order.get('price') if @is_offer(order)
+			remaining_size = new_order.get('size')
+			new_order_price = parseInt new_order.get('price')
+			answer = false
 			
-			my_lowest_offer = _.min( _.compact my_offer_prices	)
-			
-			if new_order.get('price') >= my_lowest_offer
-				return true
+			@offers.models.every (offer) ->
 
-			false
+					offer_price = parseInt offer.get('price')
 
-		valid_trade: (new_order) ->
+					return if answer or remaining_size <= 0 or offer_price > new_order_price
+
+					if offer.get('user_id') is new_order.get('user_id')
+						answer = true
+						return
+
+					remaining_size -= parseInt offer.get('size')
+						
+			answer
+
+		valid_order: (new_order) ->
 			if @is_offer new_order
-				if new_order.get('price') > @highest_bid() or @hitting_my_bid new_order
-					return false
+				if (parseInt new_order.get('price')) > (parseInt @highest_bid()) 
+					return true
 
 			if @is_bid new_order
-				if new_order.get('price') < @lowest_offer() or @lifting_my_offer new_order
-					return false
+				if (parseInt new_order.get('price')) < (parseInt @lowest_offer()) 
+					return true
 
-			return true
+			false
 
 
 		# Function decides what to do with newly submitted order 
 		addNewOrder: (new_order) ->
-			if @valid_trade new_order
-				# Execute trade
-				console.log "ready to execute"
-			else if @trading_with_myself new_order
-				console.log "trading with yourself?!"
-			else
-				# save to database
-				console.log "regular order, so save it"
+			if @valid_order new_order
+				console.log "valid order"
 				@all_orders.add new_order
 				@refreshMarket()
+			else if  @trading_with_myself new_order
+				console.log "trading with myself"
+			else
+				# save to database
+				console.log "regular trade, so save it"
+
 
 
 
