@@ -19,6 +19,8 @@
 <!-- Size -->
 <td><%= Number(@size).toFixed(0) %></td>
 
+<td><%= Number(@size_left).toFixed(0) %></td>
+
 <!-- Updated -->
 <td><%= moment(@updated_at).format('D MMM, H:MM') %></td>
 

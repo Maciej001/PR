@@ -48,7 +48,10 @@
 			App.entitiesBus.request "get:orders:collection", my_orders_array
 
 		getSortedBids: (orders) ->
-			bids_collection = App.entitiesBus.request "get:orders:collection", orders.where side: 'bid'
+			bids_collection = App.entitiesBus.request "get:orders:collection", 
+				orders.where 
+					side: 	'bid'
+					state: 	'active'
 			
 			bids_collection.comparator = (bid) ->	
 				-bid.get('price')
@@ -57,7 +60,10 @@
 			bids_collection
 
 		getSortedOffers: (orders) ->
-			offers_collection = App.entitiesBus.request "get:orders:collection", orders.where side: 'offer'
+			offers_collection = App.entitiesBus.request "get:orders:collection", 
+				orders.where 
+					side: 	'offer'
+					state: 	'active'
 			
 			offers_collection.comparator = (offer) ->
 				+offer.get('price')
@@ -140,14 +146,12 @@
 			false
 
 		is_offer: (order) ->
-			console.log "checking if is offer", order
 			return true if order.get('side') is 'offer'
 			false
 
 		trading_with_myself: (new_order) ->
 			if @is_bid new_order
 				if @lifting_my_offer new_order
-					console.log "trying to lift my offer"
 					return true 
 			else 
 				return true if @hitting_my_bid new_order
@@ -155,27 +159,25 @@
 			false
 
 		hitting_my_bid: (new_order) =>
-			remaining_size = new_order.get('size')
+			remaining_size = new_order.get('size_left')
 			new_order_price = parseInt new_order.get('price')
 			answer = false
 			
 			@bids.models.every (bid) ->
-
 					bid_price = parseInt bid.get('price')
 
-					return if answer or remaining_size <= 0 or bid_price < new_order_price
+					return if answer or (remaining_size <= 0) or (bid_price < new_order_price)
 
 					if bid.get('user_id') is new_order.get('user_id')
 						answer = true
 						return
 
-					remaining_size -= parseInt bid.get('size')
+					remaining_size -= parseInt bid.get('size_left')
 						
 			answer
 
-
 		lifting_my_offer: (new_order) ->
-			remaining_size = new_order.get('size')
+			remaining_size = new_order.get('size_left')
 			new_order_price = parseInt new_order.get('price')
 			answer = false
 			
@@ -183,13 +185,13 @@
 
 					offer_price = parseInt offer.get('price')
 
-					return if answer or remaining_size <= 0 or offer_price > new_order_price
+					return if answer or (remaining_size <= 0) or (offer_price > new_order_price)
 
 					if offer.get('user_id') is new_order.get('user_id')
 						answer = true
 						return
 
-					remaining_size -= parseInt offer.get('size')
+					remaining_size -= parseInt offer.get('size_left')
 						
 			answer
 
@@ -207,14 +209,11 @@
 		# Function decides what to do with newly submitted order 
 		addNewOrder: (new_order) ->
 			if @valid_order new_order
-				console.log "valid order"
 				@all_orders.add new_order
 				@refreshMarket()
-			else if  @trading_with_myself new_order
-				console.log "trading with myself"
-			else
-				# save to database
-				console.log "regular trade, so save it"
+			else if not (@trading_with_myself new_order)
+				console.log "Executing trade!!!"
+
 
 
 

@@ -46,19 +46,17 @@
 			else 
 				check_data.side = 'offer'
 
-			nowy = new Entities.Order check_data
-			console.log "nowy odred to check ", nowy
-			nowy 
+			new Entities.Order check_data
 
 		getOrdersCollection: (orders) ->
 			new Entities.OrdersCollection orders
+
 
 	App.entitiesBus.reply "get:active:orders", ->
 		API.getActiveOrders()
 
 	App.entitiesBus.reply "get:order", (id) ->
 		API.getOrder id
-
 
 	App.entitiesBus.reply "new:order:entity", ->
 		API.newOrderEntity
@@ -69,5 +67,6 @@
 
 	App.entitiesBus.reply "get:orders:collection", (orders) ->
 		API.getOrdersCollection orders
+
 
 

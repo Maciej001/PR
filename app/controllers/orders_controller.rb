@@ -29,7 +29,7 @@ class OrdersController < ActionController::Base
 	private
 
 		def order_params
-			params.permit(:price, :size, :side, :state, :user_id)
+			params.permit(:price, :size, :size_left, :side, :state, :user_id)
 		end
 
 end

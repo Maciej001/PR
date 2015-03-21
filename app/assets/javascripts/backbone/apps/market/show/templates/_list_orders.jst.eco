@@ -15,7 +15,8 @@
 						<th>Bid/Offer</th>
 						<th>Status</th>
 						<th class='header-price'>Price</th>
-						<th>Size</th>
+						<th>Original size</th>
+						<th>Size left</th>
 						<th>Updated</th>
 						<th></th>
 					</tr>

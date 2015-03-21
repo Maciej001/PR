@@ -16,6 +16,7 @@
 		formSubmit: ->
 			data = Backbone.Syphon.serialize @formLayout 
 			model = @contentView.model
+
 			collection = @contentView.collection
 
 			@processFormSubmit data, model, collection
@@ -25,11 +26,13 @@
 			check_model = App.entitiesBus.request "new:order:entity:from:data", data
 			trading_with_myself = App.mainBus.request "check:if:trading:with:myself", check_model			
 
+			data.size_left  = data.size
+
 			if not trading_with_myself
 				model.save data,  
 					collection: collection 
 			else 
-				App.mainBus.trigger "new:order:message", "You are trying to trade with yourself! Please, change the price."
+				App.mainBus.trigger "new:order:message", "Wow, you are trying to trade with yourself! Please, change the price."
 
 				
 
