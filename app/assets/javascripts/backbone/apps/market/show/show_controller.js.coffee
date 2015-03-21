@@ -28,6 +28,12 @@
 			App.mainBus.on "new:order:added", (new_order) =>
 				@addNewOrder new_order
 
+			App.mainBus.reply "check:if:trading:with:myself", (new_order) =>
+				@trading_with_myself new_order
+
+			App.mainBus.reply "trading:with:myself", (new_order) =>
+
+
 			@show @layoutView
 
 		refreshMarket: ->
@@ -58,9 +64,6 @@
 
 			offers_collection.sort()
 			offers_collection
-
-		delay: (ms, func) -> 
-			setTimeout func, ms
 
 		listOrdersRegion: (orders) ->
 			ordersListView = @getListOrdersView orders
@@ -137,12 +140,15 @@
 			false
 
 		is_offer: (order) ->
+			console.log "checking if is offer", order
 			return true if order.get('side') is 'offer'
 			false
 
 		trading_with_myself: (new_order) ->
 			if @is_bid new_order
-				return true if @lifting_my_offer new_order
+				if @lifting_my_offer new_order
+					console.log "trying to lift my offer"
+					return true 
 			else 
 				return true if @hitting_my_bid new_order
 
@@ -197,7 +203,6 @@
 					return true
 
 			false
-
 
 		# Function decides what to do with newly submitted order 
 		addNewOrder: (new_order) ->

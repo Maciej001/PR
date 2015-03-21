@@ -11,6 +11,12 @@
 	</div>
 
 	<div class="row">
+		<div class="small-12 large-12 columns">
+			<p id="new-form-message" class="message-red"></p>
+		</div>
+	</div>
+
+	<div class="row">
 		<div class="large-12 columns">
 			<label>Price</label>
 				<div class="large-6">

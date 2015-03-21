@@ -21,8 +21,17 @@
 			@processFormSubmit data, model, collection
 
 		processFormSubmit: (data, model, collection) ->
-			model.save data,  
-				collection: collection 
+			App.mainBus.trigger "clear:new:order:messages"
+			check_model = App.entitiesBus.request "new:order:entity:from:data", data
+			trading_with_myself = App.mainBus.request "check:if:trading:with:myself", check_model			
+
+			if not trading_with_myself
+				model.save data,  
+					collection: collection 
+			else 
+				App.mainBus.trigger "new:order:message", "You are trying to trade with yourself! Please, change the price."
+
+				
 
 		formContentRegion: ->
 			@region = @formLayout.formContentRegion

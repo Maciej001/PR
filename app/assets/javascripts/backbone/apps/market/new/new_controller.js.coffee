@@ -18,6 +18,12 @@
 				collection.add new_order
 				App.mainBus.trigger "new:order:added", new_order
 
+			App.mainBus.on "clear:new:order:messages", ->
+				$('#new-form-message').text('')
+
+			App.mainBus.on "new:order:message", (msg) ->
+				$('#new-form-message').text(msg)
+
 			formView = App.mainBus.request "form:wrapper", newView
 			@show formView  
 

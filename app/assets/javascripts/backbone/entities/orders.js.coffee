@@ -37,6 +37,19 @@
 		newOrderEntity: ->
 			order = new Entities.Order
 
+		newOrderEntityFromData: (data) ->
+			check_data = data
+			check_data.user_id = App.currentUser.id
+
+			if check_data.side is "0"
+				check_data.side = 'bid'
+			else 
+				check_data.side = 'offer'
+
+			nowy = new Entities.Order check_data
+			console.log "nowy odred to check ", nowy
+			nowy 
+
 		getOrdersCollection: (orders) ->
 			new Entities.OrdersCollection orders
 
@@ -50,6 +63,9 @@
 	App.entitiesBus.reply "new:order:entity", ->
 		API.newOrderEntity
 			user_id: App.current_user
+
+	App.entitiesBus.reply "new:order:entity:from:data", (data) ->
+		API.newOrderEntityFromData data
 
 	App.entitiesBus.reply "get:orders:collection", (orders) ->
 		API.getOrdersCollection orders
