@@ -1,10 +1,12 @@
 @Payrollsio.module "MarketApp.Show", (Show, App, Backbone, Marionette, $, _) ->
 	
 	class Show.Controller extends App.Controllers.Application 
-		@all_orders = {}
-		@bids = {}
-		@offers = {}
-		@transactions = {}
+		@all_orders 		= {}
+		@bids 					= {}
+		@offers 				= {}
+		@transactions 	= {}
+		@my_orders 			= {}
+		@my_trades 			= {}
 		
 
 		initialize: =>
@@ -218,10 +220,7 @@
 
 			false
 
-		saveTrade: (args) ->
-			{ price, size, user_id } = args
-
-		executeTrade: (new_order) ->
+		executeTrade: (new_order, collection) ->
 			remaining_size = new_order.get('size')
 			price = parseInt( new_order.get('price') )
 			complete 			= false
@@ -244,6 +243,7 @@
 								size: 		remaining_size
 								user_id:	App.currentUser.id
 								side: 		"buy"
+								collection: @my_trades
 
 							# for Seller
 							@saveTrade 
@@ -252,9 +252,21 @@
 								user_id:	offer.get('user_id')
 								side: 		'sell'
 
+							# Update buying order state to :executed
+							@delay 1000, ->
+								new_order.save
+									state: "executed"
+
+		delay: (ms, func) -> setTimeout func, ms
+
 		saveTrade: (data) ->
 			trade = App.entitiesBus.request "get:new:trade:entity"
-			trade.save data
+			if data.collection
+				trade.save data, 
+					collection: data.collection
+			else
+				trade.save data
+
 
 
 		# Function decides what to do with newly submitted order 
@@ -263,7 +275,8 @@
 				@all_orders.add new_order
 				@refreshMarket()
 			else if not (@trading_with_myself new_order)
-				@executeTrade new_order
+				@executeTrade new_order, 
+					collection: @all_orders
 
 
 
