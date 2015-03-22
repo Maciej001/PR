@@ -206,13 +206,28 @@
 
 			false
 
+		executeTrade: (new_order) ->
+			remainig_size = new_order.get('size')
+
+			if @is_bid new_order
+				@offers.models.every (offer) ->
+
+					if parseInt( new_order.get('price') ) >= parseInt( offer.get('prize') )
+						if parseInt( new_order.get('size') ) < parseInt( offer.get('size_left') )
+							@saveTrade
+								price: 	parseInt( offer.get('prize') )
+								size: 	parseInt( new_order.get('size') )
+
+			else
+
+
 		# Function decides what to do with newly submitted order 
 		addNewOrder: (new_order) ->
 			if @valid_order new_order
 				@all_orders.add new_order
 				@refreshMarket()
 			else if not (@trading_with_myself new_order)
-				console.log "Executing trade!!!"
+				@executeTrade new_order
 
 
 

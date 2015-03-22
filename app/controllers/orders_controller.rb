@@ -11,7 +11,7 @@ class OrdersController < ActionController::Base
 	end
 
 	def show
-		respond_with Orders.find params[:id]
+		respond_with Order.find params[:id]
 	end
 
 	def update

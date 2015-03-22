@@ -1,6 +1,5 @@
 class Order < ActiveRecord::Base
 	belongs_to :user
-	has_and_belongs_to_many :trades, join_table: 'orders_trades'
 
 	# There is a problem in 4.1 Rails
 	# Active record throws an Argument Error in RailsAdmin::MainController#new 
