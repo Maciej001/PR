@@ -5,10 +5,11 @@
 		@bids = {}
 		@offers = {}
 		@transactions = {}
-		@my_trades = App.entitiesBus.request "get:executed:trades:collection"
+		
 
 		initialize: =>
 			@orders_fetching = App.entitiesBus.request "get:active:orders"
+			@fetching_my_trades = App.entitiesBus.request "get:executed:trades:collection"
 			
 			@layoutView = @getLayoutView()
 			
@@ -22,11 +23,14 @@
 					
 					@my_orders  = @getMyOrders @all_orders
 					@listOrdersRegion @my_orders
-
-					@listTradesCollection @my_trades
 					
 					@chartRegion() 
 					@sessionRegion()
+
+				@fetching_my_trades.done (trades) =>
+					@my_trades = trades
+					@listTradesRegion @my_trades
+
 
 			App.mainBus.on "new:order:added", (new_order) =>
 				@addNewOrder new_order
@@ -90,7 +94,7 @@
 				# remove model form collection
 				model.collection.remove(model)
 
-		listTradesCollection: (trades) ->
+		listTradesRegion: (trades) ->
 			tradesListView = @getTradesListView trades
 			@show tradesListView, region: @layoutView.listTradesRegion
 
@@ -219,13 +223,13 @@
 
 
 		executeTrade: (new_order) ->
-			remainig_size = new_order.get('size')
+			remaining_size = new_order.get('size')
 			price = parseInt( new_order.get('price') )
 			complete 			= false
 
 			if @is_bid new_order 		# BUY order
 
-				@offers.models.every (offer) ->
+				@offers.models.every (offer) =>
 					
 					offer_price = parseInt( offer.get('price') )
 					offer_size  = parseInt( offer.get('size_left') )
@@ -247,7 +251,8 @@
 								size: 		remaining_size
 								user_id:	offer.get('user_id')
 
-
+		saveTrade: (data) ->
+			@my_trades.model.save data
 
 
 		# Function decides what to do with newly submitted order 

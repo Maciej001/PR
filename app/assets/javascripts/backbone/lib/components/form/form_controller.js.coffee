@@ -15,9 +15,9 @@
 
 		formSubmit: ->
 			data = Backbone.Syphon.serialize @formLayout 
-			model = @contentView.model
 
-			collection = @contentView.collection
+			model = 			@contentView.model
+			collection = 	@contentView.collection
 
 			@processFormSubmit data, model, collection
 
