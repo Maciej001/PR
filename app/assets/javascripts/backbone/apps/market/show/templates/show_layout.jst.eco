@@ -29,4 +29,6 @@
 	<div id="list-orders-region" class="small-12 large-12 columns">list orders region</div>
 </div>
 
-
+<div class="row">
+	<div id="list-trades-region" class="small-12 large-12 columns">trades orders region</div>
+</div>

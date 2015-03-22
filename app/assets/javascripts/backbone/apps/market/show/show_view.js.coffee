@@ -10,6 +10,7 @@
 			chartRegion: 			"#chart-region"
 			sessionRegion: 		"#session-region"
 			listOrdersRegion:	"#list-orders-region"
+			listTradesRegion: "#list-trades-region"
 
 	class Show.Price extends App.Views.ItemView
 		template: "market/show/_price"
@@ -50,6 +51,19 @@
 
 		triggers: 
 			"click #new-order":	"new:order:clicked"
+
+	class Show.ListTradeItem extends App.Views.ItemView
+		template:		"market/show/_trade_item"
+		tagName:		"tr"
+		
+	class Show.EmptyTradesView extends App.Views.ItemView
+		template:		"market/show/_trades_empty"
+		
+	class Show.ListTradesView extends App.Views.CompositeView
+		template: 						"market/show/_list_trades"
+		childView:						Show.ListTradeItem
+		childViewContainer:		'tbody'
+		emptyView:						Show.EmptyTradesView
 
 
 

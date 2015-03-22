@@ -1,8 +1,5 @@
 @Payrollsio.module "Entities", (Entities, App, Backbone, Marionette, $, _) ->
 
-	# class Entities.Order extends App.Entities.Model
-	# 	urlRoot: -> Routes.orders_path()
-
 	class Entities.Order extends App.Entities.Model
 		urlRoot: "/orders"
 
@@ -60,7 +57,7 @@
 
 	App.entitiesBus.reply "new:order:entity", ->
 		API.newOrderEntity
-			user_id: App.current_user
+			user_id: App.currentUser
 
 	App.entitiesBus.reply "new:order:entity:from:data", (data) ->
 		API.newOrderEntityFromData data

@@ -1,0 +1,18 @@
+<!-- Buy/Sell -->
+<td> 
+	<% if @side == 'buy': %>
+		<i class='fi-arrow-up'></i>
+	<% else: %>
+		<i class='fi-arrow-down'></i>
+	<% end %>
+	<%= @side %>
+</td>
+
+<!-- Price -->
+<td><%= Number(@price).toFixed(0) %></td>
+
+<!-- Size -->
+<td><%= Number(@size).toFixed(0) %></td>
+
+<!-- Date and time -->
+<td><%= moment(@created_at).format('D MMM, H:MM') %></td>

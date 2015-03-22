@@ -1,0 +1,24 @@
+<div class="row">
+	<div class="small-12 large-12 columns">
+		
+		<div class="row">
+			<div class="small-12 large-12 columns my-orders">
+				<h5>Executed trades</h5>		
+			</div>
+		</div>
+
+		<table>
+			<thead>
+				<tr>
+					<tr>
+						<th>Buy/Sell</th>
+						<th>Price</th>
+						<th>Size</th>
+						<th>Date and time</th>
+					</tr>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+</div>

@@ -5,6 +5,7 @@
 		@bids = {}
 		@offers = {}
 		@transactions = {}
+		@my_trades = App.entitiesBus.request "get:executed:trades:collection"
 
 		initialize: =>
 			@orders_fetching = App.entitiesBus.request "get:active:orders"
@@ -21,6 +22,8 @@
 					
 					@my_orders  = @getMyOrders @all_orders
 					@listOrdersRegion @my_orders
+
+					@listTradesCollection @my_trades
 					
 					@chartRegion() 
 					@sessionRegion()
@@ -84,11 +87,12 @@
 				# remove model from database
 				model.destroy()
 
-
 				# remove model form collection
 				model.collection.remove(model)
 
-			@listenTo ordersListView, "orders:sort:by:price", (args) ->
+		listTradesCollection: (trades) ->
+			tradesListView = @getTradesListView trades
+			@show tradesListView, region: @layoutView.listTradesRegion
 
 		ordersRegion: (bids, offers) ->
 			ordersView = @getOrdersLayout()
@@ -112,6 +116,10 @@
 		sessionRegion: ->
 			sessionView = @getSessionView()
 			@show sessionView, region: @layoutView.sessionRegion
+
+		getTradesListView: (trades) ->
+			new Show.ListTradesView
+				collection: trades
 
 		getListOrdersView: (orders) ->
 			new Show.ListOrdersView 
@@ -206,19 +214,40 @@
 
 			false
 
+		saveTrade: (args) ->
+			{ price, size, user_id } = args
+
+
 		executeTrade: (new_order) ->
 			remainig_size = new_order.get('size')
+			price = parseInt( new_order.get('price') )
+			complete 			= false
 
-			if @is_bid new_order
+			if @is_bid new_order 		# BUY order
+
 				@offers.models.every (offer) ->
+					
+					offer_price = parseInt( offer.get('price') )
+					offer_size  = parseInt( offer.get('size_left') )
 
-					if parseInt( new_order.get('price') ) >= parseInt( offer.get('prize') )
-						if parseInt( new_order.get('size') ) < parseInt( offer.get('size_left') )
+					if price >= offer_price		
+
+						# full execution & still offer left
+						if remaining_size < offer_size
+							# generate 2 trades 
+							# for Buyer
 							@saveTrade
-								price: 	parseInt( offer.get('prize') )
-								size: 	parseInt( new_order.get('size') )
+								price: 		offer_price
+								size: 		remaining_size
+								user_id:	App.currentUser.id
 
-			else
+							# for Seller
+							@saveTrade 
+								price: 		offer_price
+								size: 		remaining_size
+								user_id:	offer.get('user_id')
+
+
 
 
 		# Function decides what to do with newly submitted order 
