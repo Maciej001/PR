@@ -9,7 +9,7 @@
 
 		initialize: =>
 			@orders_fetching = App.entitiesBus.request "get:active:orders"
-			@fetching_my_trades = App.entitiesBus.request "get:executed:trades:collection"
+			@fetching_my_trades = App.entitiesBus.request "get:my:executed:trades:collection"
 			
 			@layoutView = @getLayoutView()
 			
@@ -221,7 +221,6 @@
 		saveTrade: (args) ->
 			{ price, size, user_id } = args
 
-
 		executeTrade: (new_order) ->
 			remaining_size = new_order.get('size')
 			price = parseInt( new_order.get('price') )
@@ -238,21 +237,24 @@
 
 						# full execution & still offer left
 						if remaining_size < offer_size
-							# generate 2 trades 
+							# Generate 2 trades 
 							# for Buyer
 							@saveTrade
 								price: 		offer_price
 								size: 		remaining_size
 								user_id:	App.currentUser.id
+								side: 		"buy"
 
 							# for Seller
 							@saveTrade 
 								price: 		offer_price
 								size: 		remaining_size
 								user_id:	offer.get('user_id')
+								side: 		'sell'
 
 		saveTrade: (data) ->
-			@my_trades.model.save data
+			trade = App.entitiesBus.request "get:new:trade:entity"
+			trade.save data
 
 
 		# Function decides what to do with newly submitted order 

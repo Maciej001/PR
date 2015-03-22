@@ -5,7 +5,8 @@
 
 	class Entities.TradesCollection extends App.Entities.Collection
 		model: Entities.Trade
-		url: 	Routes.trades_path()
+		url: Routes.trades_path()
+
 
 		comparator: (model) ->
 			#sorting latest updated_at goes first
@@ -14,25 +15,25 @@
 
 	API = 
 
-		newTradeEntity: ->
-			trade = new Entities.Trade
+		getNewTradeEntity: ->
+			new Entities.Trade
 
 		getTradesCollection: ->
 			new Entities.TradesCollection
 
-		getExecutedTradesCollection: ->
+		getMyExecutedTradesCollection: ->
 			defer = $.Deferred()
 			trades = new Entities.TradesCollection
+			
 			trades.fetch
 				reset: 		true
-				user_id: 	App.currentUser
+				user_id: 	App.currentUser.id
 				success:	->
 					defer.resolve(trades)
 			defer.promise()
 
-	App.entitiesBus.reply "new:trade:entity", ->
-		API.newTradeEntity
-			user_id: App.currentUser
+	App.entitiesBus.reply "get:new:trade:entity", ->
+		API.getNewTradeEntity()
 
-	App.entitiesBus.reply "get:executed:trades:collection", ->
-		API.getExecutedTradesCollection()
+	App.entitiesBus.reply "get:my:executed:trades:collection", ->
+		API.getMyExecutedTradesCollection()

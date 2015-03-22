@@ -6,10 +6,7 @@ Rails.application.routes.draw do
   	resources :orders
   end
 	resources 	:orders
-
-  resources :users do 
-  	resources :trades
-  end
+  
   resources :trades
 
   root to: "application#index"

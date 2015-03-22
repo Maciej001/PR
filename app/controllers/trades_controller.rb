@@ -7,7 +7,7 @@ class TradesController < ActionController::Base
 
 	def index
 		# returns collection of Orders for current_user
-		respond_with Trade.all
+		respond_with Trade.where user_id: current_user
 	end
 
 	def show
@@ -29,7 +29,7 @@ class TradesController < ActionController::Base
 	private
 
 		def trade_params
-			params.permit(:price, :size, :user_id)
+			params.permit(:price, :size, :side, :user_id)
 		end
 
 end
