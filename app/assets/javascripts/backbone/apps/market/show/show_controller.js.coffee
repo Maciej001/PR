@@ -53,7 +53,9 @@
 			@offersRegion @offers
 
 		getMyOrders: (orders) ->
-			my_orders_array = orders.where user_id: App.currentUser.id
+			my_orders_array = orders.where 
+				user_id: 	App.currentUser.id
+				state: 		'active'
 			App.entitiesBus.request "get:orders:collection", my_orders_array
 
 		getSortedBids: (orders) ->
@@ -253,10 +255,13 @@
 								side: 		'sell'
 
 							# Update buying order state to :executed
-							@delay 1000, ->
-								offer.save
-									size_left: offer_size - remaining_size
-									collection: @offers
+
+							offer.save size_left: (offer_size - remaining_size),
+								collection: @offers
+
+							new_order.save
+								state: 'executed'
+
 
 
 		delay: (ms, func) -> setTimeout func, ms

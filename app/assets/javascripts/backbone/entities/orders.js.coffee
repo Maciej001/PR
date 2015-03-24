@@ -1,7 +1,7 @@
 @Payrollsio.module "Entities", (Entities, App, Backbone, Marionette, $, _) ->
 
 	class Entities.Order extends App.Entities.Model
-		urlRoot: '/orders'
+		urlRoot: Routes.orders_path()
 
 
 	class Entities.OrdersCollection extends App.Entities.Collection
