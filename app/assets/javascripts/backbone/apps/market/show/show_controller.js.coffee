@@ -254,8 +254,10 @@
 
 							# Update buying order state to :executed
 							@delay 1000, ->
-								new_order.save
-									state: "executed"
+								offer.save
+									size_left: offer_size - remaining_size
+									collection: @offers
+
 
 		delay: (ms, func) -> setTimeout func, ms
 

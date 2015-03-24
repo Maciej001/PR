@@ -15,7 +15,10 @@ class OrdersController < ActionController::Base
 	end
 
 	def update
-		respond_with( Order.find params[:id], order_params )
+		@order = Order.find params[:id]
+		if @order.update order_params
+			respond_with @order
+		end
 	end
 
 	def create
@@ -29,7 +32,8 @@ class OrdersController < ActionController::Base
 	private
 
 		def order_params
-			params.permit(:price, :size, :size_left, :side, :state, :user_id)
+			params.require(:order).permit(:price, :size, :size_left, :side, :state, :user_id)
 		end
 
 end
+
