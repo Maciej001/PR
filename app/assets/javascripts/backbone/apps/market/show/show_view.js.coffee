@@ -16,6 +16,9 @@
 		template: "market/show/_price"
 		tagName:	"li"
 
+		modelEvents: 
+			"change": 	"render"
+
 	class Show.Bids extends App.Views.CompositeView
 		template: 					"market/show/_bids" 
 		childView: 					Show.Price

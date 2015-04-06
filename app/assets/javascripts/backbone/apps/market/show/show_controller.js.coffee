@@ -20,7 +20,6 @@
 				# one off action on first 'show'
 				@orders_fetching.done (orders) =>
 					@all_orders = orders
-
 					@refreshMarket()	
 					
 					@my_orders  = @getMyOrders @all_orders
@@ -33,7 +32,6 @@
 					@my_trades = trades
 					@listTradesRegion @my_trades
 
-
 			App.mainBus.on "new:order:added", (new_order) =>
 				@addNewOrder new_order
 
@@ -42,13 +40,17 @@
 
 			App.mainBus.reply "trading:with:myself", (new_order) =>
 
-
 			@show @layoutView
 
 		refreshMarket: ->
+			@refreshBids()
+			@refreshOffers()
+
+		refreshBids: ->
 			@bids = @getSortedBids @all_orders 
 			@bidsRegion @bids
-
+			
+		refreshOffers: ->
 			@offers = @getSortedOffers @all_orders 
 			@offersRegion @offers
 
@@ -98,12 +100,16 @@
 				# remove model form collection
 				model.collection.remove(model)
 
+			@listenTo orders, 'change', (order) -> 
+				order.collection.remove(order) if order.get('state') is 'executed'
+					
 		listTradesRegion: (trades) ->
 			tradesListView = @getTradesListView trades
 			@show tradesListView, region: @layoutView.listTradesRegion
 
 		ordersRegion: (bids, offers) ->
 			ordersView = @getOrdersLayout()
+
 			@show ordersView, region: @layoutView.ordersRegion
 
 		bidsRegion: (bids) ->
@@ -151,11 +157,16 @@
 			new Show.LayoutView
 
 		highest_bid: ->
-			@bids.at(0).get('price')
+			if @bids.length > 0 
+				@bids.at(0).get('price')
+			else
+				null
 
 		lowest_offer: ->
-			@offers.at(0).get('price')
-
+			if @offers.length > 0
+				@offers.at(0).get('price') 
+			else
+				null
 
 		is_bid: (order) ->
 			return true if order.get('side') is 'bid'
@@ -213,19 +224,23 @@
 
 		valid_order: (new_order) ->
 			if @is_offer new_order
-				if (parseInt new_order.get('price')) > (parseInt @highest_bid()) 
+				if (parseInt new_order.get('price')) <= (parseInt @highest_bid()) 
+					return false
+				else
 					return true
 
 			if @is_bid new_order
-				if (parseInt new_order.get('price')) < (parseInt @lowest_offer()) 
+				if (parseInt new_order.get('price')) >= (parseInt @lowest_offer()) 
+					return false
+				else 
 					return true
 
 			false
 
-		executeTrade: (new_order, collection) ->
-			remaining_size = new_order.get('size')
-			price = parseInt( new_order.get('price') )
-			complete 			= false
+		executeTrade: (new_order) ->
+			remaining_size 	= new_order.get('size')
+			price 					= parseInt( new_order.get('price') )
+			complete 				= false
 
 			if @is_bid new_order 		# BUY order
 
@@ -245,7 +260,6 @@
 								size: 		remaining_size
 								user_id:	App.currentUser.id
 								side: 		"buy"
-								collection: @my_trades
 
 							# for Seller
 							@saveTrade 
@@ -259,22 +273,23 @@
 							offer.save size_left: (offer_size - remaining_size),
 								collection: @offers
 
-							new_order.save
-								state: 'executed'
+							@refreshOffers()
 
+							new_order.set
+								state: 			'executed'
+								size_left: 	0
+								collection: @all_orders
 
+							new_order.save()
 
-		delay: (ms, func) -> setTimeout func, ms
 
 		saveTrade: (data) ->
 			trade = App.entitiesBus.request "get:new:trade:entity"
-			if data.collection
-				trade.save data, 
-					collection: data.collection
-			else
-				trade.save data
+			trade.set data
+			trade.save()
 
-
+			if data.user_id is App.currentUser.id
+				@my_trades.add trade
 
 		# Function decides what to do with newly submitted order 
 		addNewOrder: (new_order) ->
@@ -282,8 +297,7 @@
 				@all_orders.add new_order
 				@refreshMarket()
 			else if not (@trading_with_myself new_order)
-				@executeTrade new_order, 
-					collection: @all_orders
+				@executeTrade new_order
 
 
 
