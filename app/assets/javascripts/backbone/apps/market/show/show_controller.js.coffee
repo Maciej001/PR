@@ -238,7 +238,7 @@
 			false
 
 		executeTrade: (new_order) ->
-			remaining_size 	= new_order.get('size')
+			remaining_size 	= new_order.get('size_left')
 			price 					= parseInt( new_order.get('price') )
 			complete 				= false
 
@@ -251,43 +251,48 @@
 
 					if price >= offer_price		
 
-						# full execution & still offer left
-						if remaining_size < offer_size
-							# Generate 2 trades 
-							# for Buyer
-							@saveTrade
-								price: 		offer_price
-								size: 		remaining_size
-								user_id:	App.currentUser.id
-								side: 		"buy"
+						#  CASE 1: Full execution & size left on the offer
+						if remaining_size < offer_size and remaining_size > 0
 
-							# for Seller
-							@saveTrade 
-								price: 		offer_price
-								size: 		remaining_size
-								user_id:	offer.get('user_id')
-								side: 		'sell'
+							@saveTrade { price: offer_price, size: remaining_size, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
+							@saveTrade { price: offer_price, size: remaining_size, user_id:	offer.get('user_id'), side: 'sell' } 	# Seller
 
-							# Update buying order state to :executed
-
+							# Update offer: decrease size_left
 							offer.save size_left: (offer_size - remaining_size),
 								collection: @offers
 
-							@refreshOffers()
-
-							new_order.set
+							new_order.save
 								state: 			'executed'
-								size_left: 	0
+								size_left: 	0,
 								collection: @all_orders
 
-							new_order.save()
+						else if remaining_size >= offer_size and remaining_size > 0
+
+							@saveTrade { price:	offer_price, size: remaining_size, user_id:	App.currentUser.id,		side: 'buy' } 	# Buyer
+							@saveTrade { price: offer_price, size: remaining_size, user_id: offer.get('user_id'),	side: 'sell' }	# Seller
+							
+							# change offer state to 'executed' and remove from @offers
+							offer.set 
+								size_left: 	0
+								state:			'executed'
+
+							offer.save
+								collection: @offers
+
+							# decrease size left on new_order
+							new_order.set
+								size_left: size_left - offer.get('size')
 
 
 		saveTrade: (data) ->
 			trade = App.entitiesBus.request "get:new:trade:entity"
 			trade.set data
+			trade.set 
+				created_at: new Date()
+				updated_at: new Date()
 			trade.save()
 
+			# for current user add trade to @my_trades
 			if data.user_id is App.currentUser.id
 				@my_trades.add trade
 

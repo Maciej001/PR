@@ -3,7 +3,7 @@
 		
 		<div class="row">
 			<div class="small-12 large-12 columns my-orders">
-				<h5>Your orders</h5>		
+				<h5>Your active orders</h5>		
 				<button id="new-order" class="button tiny">New order</button4>
 			</div>
 		</div>
@@ -13,11 +13,10 @@
 				<tr>
 					<tr>
 						<th>Bid/Offer</th>
-						<th>Status</th>
 						<th class='header-price'>Price</th>
-						<th>Original size</th>
-						<th>Size left</th>
-						<th>Updated</th>
+						<th>Size</th>
+						<th>Left</th>
+						<th>Time</th>
 						<th></th>
 					</tr>
 				</tr>

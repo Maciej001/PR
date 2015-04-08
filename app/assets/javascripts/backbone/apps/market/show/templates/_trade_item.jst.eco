@@ -15,4 +15,4 @@
 <td><%= Number(@size).toFixed(0) %></td>
 
 <!-- Date and time -->
-<td><%= moment(@created_at).format('D MMM, H:MM') %></td>
+<td><%= moment(@created_at).format('D MMM, HH:mm:ss') %></td>

@@ -8,11 +8,6 @@
 	<%= @side %>
 </td>
 
-<!-- Status -->
-<td>
-	<%= @state %>
-</td>
-
 <!-- Price -->
 <td><%= Number(@price).toFixed(0) %></td>
 
@@ -22,7 +17,7 @@
 <td><%= Number(@size_left).toFixed(0) %></td>
 
 <!-- Updated -->
-<td><%= moment(@updated_at).format('D MMM, H:MM') %></td>
+<td><%= moment(@updated_at).format('D MMM, HH:mm:ss') %></td>
 
 <!-- Actions -->
 <td>
