@@ -18,7 +18,7 @@ Trade execution:
 
 updates: 
 	at the end change trade state to 'executed'
-	all_orders, my_orders - dont add
+	all_orders, my_orders - dont add here new_order
 
 while new_trade.size_left > 0 
 		
