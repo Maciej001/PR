@@ -7,7 +7,6 @@
 		@transactions 	= {}
 		@my_orders 			= {}
 		@my_trades 			= {}
-		
 
 		initialize: =>
 			@orders_fetching = App.entitiesBus.request "get:active:orders"
@@ -41,6 +40,16 @@
 			App.mainBus.reply "trading:with:myself", (new_order) =>
 
 			@show @layoutView
+
+		trading_with_myself: (new_order) ->
+			if @is_bid new_order
+				if @lifting_my_offer new_order
+					console.log 'lifting my offer'
+					return true 
+			else 
+				return true if @hitting_my_bid new_order
+
+			false
 
 		refreshMarket: ->
 			@refreshBids()
@@ -176,15 +185,6 @@
 			return true if order.get('side') is 'offer'
 			false
 
-		trading_with_myself: (new_order) ->
-			if @is_bid new_order
-				if @lifting_my_offer new_order
-					return true 
-			else 
-				return true if @hitting_my_bid new_order
-
-			false
-
 		hitting_my_bid: (new_order) =>
 			remaining_size = new_order.get('size_left')
 			new_order_price = parseInt new_order.get('price')
@@ -222,20 +222,7 @@
 						
 			answer
 
-		valid_order: (new_order) ->
-			if @is_offer new_order
-				if (parseInt new_order.get('price')) <= (parseInt @highest_bid()) 
-					return false
-				else
-					return true
 
-			if @is_bid new_order
-				if (parseInt new_order.get('price')) >= (parseInt @lowest_offer()) 
-					return false
-				else 
-					return true
-
-			false
 
 		executeTrade: (new_order) ->
 			remaining_size 	= new_order.get('size_left')
@@ -243,6 +230,11 @@
 			complete 				= false
 
 			if @is_bid new_order 		# BUY order
+
+
+				# every is jquery function executing callback function until it return false
+
+				# Implement using simple while function
 
 				@offers.models.every (offer) =>
 					
@@ -283,6 +275,20 @@
 							new_order.set
 								size_left: size_left - offer.get('size')
 
+		valid_order: (new_order) ->
+			if @is_offer new_order
+				if (parseInt new_order.get('price')) <= (parseInt @highest_bid()) 
+					return false
+				else
+					return true
+
+			if @is_bid new_order
+				if (parseInt new_order.get('price')) >= (parseInt @lowest_offer()) 
+					return false
+				else 
+					return true
+
+			false
 
 		saveTrade: (data) ->
 			trade = App.entitiesBus.request "get:new:trade:entity"
@@ -296,13 +302,18 @@
 			if data.user_id is App.currentUser.id
 				@my_trades.add trade
 
-		# Function decides what to do with newly submitted order 
+		# Function decides what to do with newly submitted order - we know now that we don't trade with ourselves
 		addNewOrder: (new_order) ->
 			if @valid_order new_order
+
+				# update collections & refresh market (bids&offers)
 				@all_orders.add new_order
+				@my_orders.add new_order
 				@refreshMarket()
-			else if not (@trading_with_myself new_order)
+
+			else
 				@executeTrade new_order
+
 
 
 

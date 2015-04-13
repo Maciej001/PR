@@ -24,10 +24,11 @@
 		processFormSubmit: (data, model, collection) ->
 			App.mainBus.trigger "clear:new:order:messages"
 			
-			check_model = App.entitiesBus.request "new:order:entity:from:data", data
-			trading_with_myself = App.mainBus.request "check:if:trading:with:myself", check_model			
+			data.size_left = data.size
 
-			data.size_left  = data.size
+			check_model = App.entitiesBus.request "new:order:entity:from:data", data
+
+			trading_with_myself = App.mainBus.request "check:if:trading:with:myself", check_model		
 
 			if not trading_with_myself
 				model.save data,  
@@ -35,7 +36,7 @@
 			else 
 				App.mainBus.trigger "new:order:message", "Wow, you are trying to trade with yourself! Please, change the price."
 
-				
+
 		formContentRegion: ->
 			@region = @formLayout.formContentRegion
 			@show @contentView 

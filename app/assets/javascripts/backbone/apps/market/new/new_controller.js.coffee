@@ -15,7 +15,7 @@
 
 			@listenTo new_order, "created", ->
 				formView.remove()
-				collection.add new_order
+				# collection.add new_order
 				App.mainBus.trigger "new:order:added", new_order
 
 			App.mainBus.on "clear:new:order:messages", ->

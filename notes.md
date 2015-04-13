@@ -1,4 +1,24 @@
+New order form submit:
+
+Check when submitting the form: 
+
+1. trading_with_myself? -> yes -> error message, form doesnt get submitted
+										 -> no  -> proceed 
+
+2. Either regular order or execute trade - at this point order gets saved to DB
+
+	a) regular order 
+	 		- add to @all_orders
+	 		- add to @my_orders
+	 		- add to @offers or @bids
+
+	b) execute trade
+
 Trade execution: 
+
+updates: 
+	at the end change trade state to 'executed'
+	all_orders, my_orders - dont add
 
 while new_trade.size_left > 0 
 		
