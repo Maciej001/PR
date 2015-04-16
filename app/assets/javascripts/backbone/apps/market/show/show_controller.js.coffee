@@ -255,114 +255,78 @@
 			if @valid_order new_order
 
 				# update collections & refresh market (bids&offers)
-				@all_orders.add new_order
-				@my_orders.add new_order
+				@addOrder new_order
 				@refreshMarket()
 
 			else
 				@executeTrade new_order
 
+		addOrder: (order) ->
+			@all_orders.add order
+			@my_orders.add order
 
 		executeTrade: (new_order) ->
+			removed_orders = []
 			size_left = parseInt new_order.get('size_left')
-			console.log "initial size_left", size_left
+			new_order_price = parseInt new_order.get('price')
+
+			i = 1
 
 			for order in @offers.models when size_left > 0
+
 				offer_price = parseInt order.get('price')
 				order_size_left = parseInt order.get('size_left')
 
-				#DEBUG
-				console.log "new_order.price =  #{new_order.get('price')}, size_left = #{size_left}"
-				console.log "order.price = #{offer_price}, order_size_left = #{order_size_left}"
-
-				if (size_left > order_size_left)
-					console.log "size_left > order_size_left"
-					@saveTrade { price: offer_price, size: order_size_left, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
-					@saveTrade { price: offer_price, size: order_size_left, user_id:	order.get('user_id'), side: 'sell' } 	# Seller
-					size_left = size_left - order_size_left
-					order_size_left = 0
-				
-				else if (size_left is order_size_left)
-					console.log "sizy identyczne"
-					@saveTrade { price: offer_price, size: order_size_left, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
-					@saveTrade { price: offer_price, size: order_size_left, user_id:	order.get('user_id'), side: 'sell' } 	# Seller
-					size_left = order_size_left = 0
-
+				if (new_order_price < offer_price)
+					new_order.save('size_left', size_left) 
+					@addOrder new_order
+					@bids.add new_order
+					size_left = 0 # to stop the loop
 				else 
-					console.log "zapamietuje size: #{size_left}"
-					@saveTrade { price: offer_price, size: size_left, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
-					@saveTrade { price: offer_price, size: size_left, user_id:	order.get('user_id'), side: 'sell' } 	# Seller
-					order_size_left = order_size_left - size_left 
-					size_left = 0
 
-				if order_size_left is 0 
-					order.set('size_left', 0)
-					order.set('state', 'executed')
-					order.save()
-					order.collection.remove(order)
+					#DEBUG
+					console.log "transakcja nr #{i}"
+					console.log "new_order.price =  #{new_order.get('price')}, size_left = #{size_left}"
+					console.log "order.price = #{offer_price}, order_size_left = #{order_size_left}"
 
-				if size_left is 0
-					new_order.set('size_left', 0)
-					new_order.set('state', 'executed')
-					new_order.save()
+					i = i+1
 
-					order.set('size_left', order_size_left)
+					if (size_left > order_size_left)
+						@saveTrade { price: offer_price, size: order_size_left, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
+						@saveTrade { price: offer_price, size: order_size_left, user_id:	order.get('user_id'), side: 'sell' } 	# Seller
 
-
-
-
-
-
-
-			# remaining_size 	= new_order.get('size_left')
-			# price 					= parseInt( new_order.get('price') )
-			# complete 				= false
-
-			# if @is_bid new_order 		# BUY order
-
-
-			# 	# every is jquery function executing callback function until it return false
-
-			# 	# Implement using simple while function
-
-			# 	@offers.models.every (offer) =>
+						size_left -= order_size_left
+						order_size_left = 0
 					
-			# 		offer_price = parseInt( offer.get('price') )
-			# 		offer_size  = parseInt( offer.get('size_left') )
+					else if (size_left is order_size_left)
+						@saveTrade { price: offer_price, size: order_size_left, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
+						@saveTrade { price: offer_price, size: order_size_left, user_id:	order.get('user_id'), side: 'sell' } 	# Seller
+						
+						size_left = order_size_left = 0
 
-			# 		if price >= offer_price		
+					else 
+						@saveTrade { price: offer_price, size: size_left, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
+						@saveTrade { price: offer_price, size: size_left, user_id:	order.get('user_id'), side: 'sell' } 	# Seller
+						order_size_left = order_size_left - size_left 
+						size_left = 0
+						order_size_left -= size_left 
 
-			# 			#  CASE 1: Full execution & size left on the offer
-			# 			if remaining_size < offer_size and remaining_size > 0
+					if order_size_left is 0 
+						order.save({size_left: 0, state: 'executed'})
+						
+						# executed orders where order_size_left == 0 are pushed to array and removed only after THIS loop finishes.
+						# otherwise they would mess up indexes within loop
+						removed_orders.push order
 
-			# 				@saveTrade { price: offer_price, size: remaining_size, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
-			# 				@saveTrade { price: offer_price, size: remaining_size, user_id:	offer.get('user_id'), side: 'sell' } 	# Seller
+					if size_left is 0
+						new_order.save({size_left: 0, state: 'executed'})
 
-			# 				# Update offer: decrease size_left
-			# 				offer.save size_left: (offer_size - remaining_size),
-			# 					collection: @offers
 
-			# 				new_order.save
-			# 					state: 			'executed'
-			# 					size_left: 	0,
-			# 					collection: @all_orders
+			# remove fully executed orders
+			for order in removed_orders
+				@offers.remove order
 
-			# 			else if remaining_size >= offer_size and remaining_size > 0
 
-			# 				@saveTrade { price:	offer_price, size: remaining_size, user_id:	App.currentUser.id,		side: 'buy' } 	# Buyer
-			# 				@saveTrade { price: offer_price, size: remaining_size, user_id: offer.get('user_id'),	side: 'sell' }	# Seller
-							
-			# 				# change offer state to 'executed' and remove from @offers
-			# 				offer.set 
-			# 					size_left: 	0
-			# 					state:			'executed'
-
-			# 				offer.save
-			# 					collection: @offers
-
-			# 				# decrease size left on new_order
-			# 				new_order.set
-			# 					size_left: size_left - offer.get('size')
 
 
 
