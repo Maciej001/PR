@@ -1,5 +1,5 @@
 .top-bar, .expanded ul li {
-	background: black;
+	background: $very-dark-blue;
 }
 
 .expanded ul li {
@@ -9,7 +9,7 @@
 .top--bar-section ul li,
 .top-bar-section li:not(.has-form) a:not(.button)
 {
-	background: black;
+	background: $very-dark-blue;
 	&:hover {
 		background: $yellow;
 	}
@@ -21,7 +21,7 @@
 
 .top-bar-section ul li.free-account a,
 .top-bar-section li:not(.has-form).free-account a:not(.button) {
-	background: black;
+	background: $very-dark-blue;
 }
 
 nav.header-width {

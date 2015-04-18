@@ -1,3 +1,8 @@
+body, html {
+	@include box-sizing(border-box);
+
+}
+
 *, #{headings()}, li, a, p, span {
 	font-family: 'Roboto', sans-serif;
 }
@@ -20,6 +25,4 @@
 	background: $red;
 }
 
-.fi-lightbulb {
-	color: $blue;
-}
+

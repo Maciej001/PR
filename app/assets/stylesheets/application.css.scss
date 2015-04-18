@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,700,300);
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700,300,100);
 @import "compass";
 @import "compass/reset";
 @import "foundation_and_overrides";
@@ -9,6 +9,9 @@
 @import "table";
 @import "base";
 @import "header";
+@import "session_stats";
+@import "list-orders";
+@import "list-trades";
 @import "footer";
 @import "main";
 @import "devise";

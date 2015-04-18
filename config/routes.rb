@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   
   resources :trades
 
+  resources :stats
+
   root to: "application#index"
 
   get "application/admin", to: "application#admin"

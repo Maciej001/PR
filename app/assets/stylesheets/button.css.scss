@@ -1,6 +1,18 @@
 table ul {
 	margin-bottom: 0;
 }
-.button.tiny {
-	margin: 5px 0;
+
+button.button, button.tiny {
+	display: inline-block;
+	background: $dark-blue;
+	border: 3px solid white;
+	@include border-radius(3px);
+	color: white;
+
+	margin: 0;
+
+	&:hover {
+		background: white;
+		color: $dark-blue;
+	}
 }

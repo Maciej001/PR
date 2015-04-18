@@ -1,11 +1,8 @@
 <div class="row">
 	<div class="small-12 large-12 columns">
-		
-		<div class="row">
-			<div class="small-12 large-12 columns my-orders">
-				<h5>Your active orders</h5>		
-				<button id="new-order" class="button tiny">New order</button4>
-			</div>
+		<div class="list-orders-header">
+			<h5>YOUR ACTIVE ORDERS</h5>		
+			<button id="new-order" class="button tiny">New order</button>
 		</div>
 
 		<table>
@@ -13,7 +10,7 @@
 				<tr>
 					<tr>
 						<th>Bid/Offer</th>
-						<th class='header-price'>Price</th>
+						<th>Price</th>
 						<th>Size</th>
 						<th>Left</th>
 						<th>Time</th>
