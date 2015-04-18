@@ -10,9 +10,9 @@
 				<tr>
 					<tr>
 						<th>Bid/Offer</th>
-						<th>Price</th>
 						<th>Size</th>
 						<th>Left</th>
+						<th>Price</th>
 						<th>Time</th>
 						<th></th>
 					</tr>

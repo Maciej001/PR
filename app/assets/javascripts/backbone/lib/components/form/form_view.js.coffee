@@ -3,10 +3,7 @@
 	class Form.FormWrapper extends App.Views.LayoutView
 		template: 	"form/form"
 		tagName: 		"form"
-
-		# we either want to 'edit' existing data or create 'new' form
-		# so instead of setting "data-type": "edit"
-		# let's use function
+		
 		attributes: ->
 			"data-type":	@getFormDataType()
 
@@ -31,12 +28,6 @@
 			"sync:stop"				: "syncStop"
 
 		initialize: ->
-			# originaly to access options we had to write @options.config
-			# @options.buttons
-			# setInstance... will create @config and @buttons, so these 
-			# are available in FormWrapper instance
-			# method will be available for all views so implementation is in 
-			# views/_base/view.js.coffee
 			@setInstancePropertiesFor "config", "buttons"
 
 		# Item views serialize a model or collection by default calling toJSON

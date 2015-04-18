@@ -2,11 +2,11 @@ table ul {
 	margin-bottom: 0;
 }
 
-button.button, button.tiny {
+button.button, button.tiny, button.secondary, .button.secondary {
 	display: inline-block;
 	background: $dark-blue;
 	border: 3px solid white;
-	@include border-radius(3px);
+	@include border-radius(5px);
 	color: white;
 
 	margin: 0;

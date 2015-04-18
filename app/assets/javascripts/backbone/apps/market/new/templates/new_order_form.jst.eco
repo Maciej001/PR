@@ -2,7 +2,7 @@
 
 	<div class="row">
 		<div class="large-12 columns">
-			<h5>What do you want to do?</h5>
+			<h5>NEW ORDER</h5>
 			<div class="large-6">
       	<input type="radio" name="side" value="0" 	id="buy" checked="checked">	<label for="buy" >Buy</label>
       	<input type="radio" name="side" value="1" 	id="sell"><label for="sell">Sell</label>
@@ -18,18 +18,18 @@
 
 	<div class="row">
 		<div class="large-12 columns">
-			<label>Price</label>
+			<!-- <label>Price</label> -->
 				<div class="large-6">
-					<input type="text" name="price">
+					<input type="text" name="price" placeholder="Price">
 				</div>
 		</div>
 	</div>
 
 	<div class="row">
 		<div class="large-12 columns">
-			<label>Number of contract</label>
+			<!-- <label>Number of contract</label> -->
 			<div class="large-6">
-				<input type="text" name="size">
+				<input type="text" name="size" placeholder="Number of contracts">
 			</div>
 		</div>
 	</div>

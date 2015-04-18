@@ -1,19 +1,23 @@
 table {
 	border: none;
-	tr {
-		&:first-child {
-			padding-top: 6px;
-		}
-	}
 }
 
 td, table tr td {
+	height: 25px;
 	padding: 3px 15px;
 	line-height: 1rem;
 	background: $dark-blue;
 	color: white;
 	font-weight: 100;
 }
+
+.left-cell {
+	text-align: left;
+}
+.right-cell {
+	text-align: right;
+}
+
 
 table thead tr th, th {
 	color: white;

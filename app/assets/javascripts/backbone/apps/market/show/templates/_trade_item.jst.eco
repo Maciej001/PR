@@ -8,11 +8,11 @@
 	<%= @side %>
 </td>
 
-<!-- Price -->
-<td><%= Number(@price).toFixed(0) %></td>
-
 <!-- Size -->
-<td><%= Number(@size).toFixed(0) %></td>
+<td class='right-cell'><%= Number(@size).toFixed(0) %></td>
+
+<!-- Price -->
+<td class='right-cell'><%= Number(@price).toFixed(0) %></td>
 
 <!-- Date and time -->
 <td><%= moment(@created_at).format('D MMM, HH:mm:ss') %></td>

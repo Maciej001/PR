@@ -1,9 +1,40 @@
-form footer {
-	background: none;
-	height: 40px;
-
-}
-
 form .message-red {
 	color: red;
+}
+
+form footer {
+	margin-left: 20px;
+	background: none;
+}
+form input[type=text] {
+	width: 165px;
+	@include border-radius(5px);
+	padding: 7px 15px;
+}
+
+form input[type=radio] {
+	margin: 0;
+	color: $gray;
+}
+
+#new-order-form, form .panel, form .radius, .panel.radius {
+	background: $dark-blue;
+	@include border-radius(10px);
+	padding: 20px;
+}
+
+#new-order-region {
+	width: 340px;
+}
+
+#new-order-form {
+	h5, label {
+		color: white;
+		font-weight: 100;
+	}
+	small {
+		color: $red;
+		font-weight: 300;
+		font-size: 1em;
+	}
 }
