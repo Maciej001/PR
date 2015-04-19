@@ -1,4 +1,4 @@
-@Payrollsio.module "MarketApp.Show", (Show, App, Backbone, Marionette, $, _) ->
+@Payrollsio.module "MarketApp.Show", (Show, App, Backbone, Marionette, $, D3, _) ->
 	
 	class Show.Controller extends App.Controllers.Application 
 		@all_orders 		= {}
@@ -7,16 +7,17 @@
 		@transactions 	= {}
 		@my_orders 			= {}
 		@my_trades 			= {}
+		@stats 					= {}
 
 		initialize: =>
-			@orders_fetching = App.entitiesBus.request "get:active:orders"
-			@fetching_my_trades = App.entitiesBus.request "get:my:executed:trades:collection"
+			@orders_fetching 			=	App.entitiesBus.request "get:active:orders"
+			@fetching_my_trades 	= App.entitiesBus.request "get:my:executed:trades:collection"
+			@stats_fetching 			=	App.entitiesBus.request "get:session:stats"
 			
 			@layoutView = @getLayoutView()
 			
 			@listenTo @layoutView, "show", ->
 
-				# one off action on first 'show'
 				@orders_fetching.done (orders) =>
 					@all_orders = orders
 					@refreshMarket()	
@@ -24,7 +25,10 @@
 					@my_orders  = @getMyOrders @all_orders
 					@listOrdersRegion @my_orders
 					
-					@chartRegion() 
+					@chartRegion()
+
+				@stats_fetching.done (stats) =>
+					@stats = stats
 					@sessionRegion()
 
 				@fetching_my_trades.done (trades) =>
@@ -133,6 +137,7 @@
 			App.mainBus.trigger "new:order:form", @layoutView.newOrderRegion, @my_orders
 
 		chartRegion: ->
+			d3.select('.chart-area').text('Chart D3!')
 			chartView = @getChartView()
 			@show chartView, region: @layoutView.chartRegion
 
@@ -160,7 +165,8 @@
 			new Show.Chart
 
 		getSessionView: ->
-			new Show.Session
+			new Show.Session 
+				model: @stats
 
 		getLayoutView: ->
 			new Show.LayoutView
@@ -265,6 +271,35 @@
 			@all_orders.add order
 			@my_orders.add order
 
+
+		updateStats: (price, size) ->
+			console.log "updating price #{price} and size: #{size}"
+			total_contracts_traded = parseInt(@stats.get('total_contracts_traded')) + size
+			number_of_trades = parseInt(@stats.get('number_of_trades')) + 1
+
+			first_trade = false
+			first_trade = true if parseInt( @stats.get('open') ) is 0
+
+			if first_trade
+				open = price if first_trade
+				high = low = last = open 
+
+
+			high = price if parseInt( @stats.get('high') ) < price
+			low  = price if parseInt( @stats.get('low') ) > price
+			last = price
+
+			@stats.set({
+					'total_contracts_traded': total_contracts_traded
+					'number_of_trades':				number_of_trades
+					'open': 									open
+					'high':										high
+					'low':										low
+					'last': 									last
+				})
+
+			@stats.save()
+
 		executeTrade: (new_order) ->
 			removed_orders = []
 			size_left = parseInt new_order.get('size_left')
@@ -287,6 +322,9 @@
 						if (size_left > order_size_left)
 							@saveTrade { price: offer_price, size: order_size_left, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
 							@saveTrade { price: offer_price, size: order_size_left, user_id:	order.get('user_id'), side: 'sell' } 	# Seller
+							
+							@updateStats offer_price, order_size_left
+							console.log 'petlowy trade:', offer_price, order_size_left
 
 							size_left -= order_size_left
 							order_size_left = 0
@@ -294,12 +332,18 @@
 						else if (size_left is order_size_left)
 							@saveTrade { price: offer_price, size: order_size_left, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
 							@saveTrade { price: offer_price, size: order_size_left, user_id:	order.get('user_id'), side: 'sell' } 	# Seller
+
+							@updateStats offer_price, order_size_left
+							console.log 'petlowy trade:', offer_price, order_size_left
 							
 							size_left = order_size_left = 0
 
 						else 
 							@saveTrade { price: offer_price, size: size_left, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
 							@saveTrade { price: offer_price, size: size_left, user_id:	order.get('user_id'), side: 'sell' } 	# Seller
+
+							@updateStats offer_price, size_left
+							console.log 'petlowy trade:', offer_price, size_left
 
 							order_size_left -= size_left 
 							size_left = 0
@@ -339,18 +383,24 @@
 							@saveTrade { price: bid_price, size: order_size_left, user_id:	App.currentUser.id, 	side: 'sell' } 	# I Sell
 							@saveTrade { price: bid_price, size: order_size_left, user_id:	order.get('user_id'), side: 'buy' } 	# Buyer transaction
 
+							@updateStats bid_price, order_size_left
+
 							size_left -= order_size_left
 							order_size_left = 0
 						
 						else if (size_left is order_size_left)
 							@saveTrade { price: bid_price, size: order_size_left, user_id:	App.currentUser.id, 	side: 'sell' } 	# I Sell
 							@saveTrade { price: bid_price, size: order_size_left, user_id:	order.get('user_id'), side: 'buy' } 	# Buyer transaction
+
+							@updateStats bid_price, order_size_left
 							
 							size_left = order_size_left = 0
 
 						else # small trade single
 							@saveTrade { price: bid_price, size: size_left, user_id:	App.currentUser.id, 	side: 'sell' } 	# I Sell
 							@saveTrade { price: bid_price, size: size_left, user_id:	order.get('user_id'), side: 'buy' } 	# Buyer transaction
+
+							@updateStats bid_price, size_left
 
 							order_size_left -= size_left 
 							size_left = 0

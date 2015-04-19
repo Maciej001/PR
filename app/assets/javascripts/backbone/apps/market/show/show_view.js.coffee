@@ -35,8 +35,6 @@
 	class Show.Session extends App.Views.ItemView
 		template: "market/show/_session"
 
-	# List Orders - Composite View
-
 	class Show.ListOrderItem extends App.Views.ItemView
 		template: 	"market/show/_order_item"
 		tagName: 		"tr"

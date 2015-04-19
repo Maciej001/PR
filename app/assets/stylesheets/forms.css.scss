@@ -17,10 +17,18 @@ form input[type=radio] {
 	color: $gray;
 }
 
+.new-order-wrapper {
+	background: $blue;
+}
 #new-order-form, form .panel, form .radius, .panel.radius {
 	background: $dark-blue;
 	@include border-radius(10px);
 	padding: 20px;
+}
+
+.panel.radius {
+	margin: 20px 0;
+	border: none;
 }
 
 #new-order-region {

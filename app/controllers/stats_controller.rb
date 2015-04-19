@@ -9,6 +9,10 @@ class StatsController < ActionController::Base
 		respond_with Stat.find params[:id]
 	end
 
+	def index
+		respond_with Stat.all
+	end
+
 	def update
 		@stat = Stat.find params[:id]
 		if @stat.update stat_params

@@ -1,30 +1,31 @@
 <div class="large-12 small-12 columns stats-data">
+
 	<div class="row">
 		<h5>SESSION STATISTICS<h5>
 		<table>
 			<tr>
 				<td>Total contracts traded</td>
-				<td>1234</td>
+				<td><%= Number(@total_contracts_traded).toFixed(0) %></td>
 			</tr>
 			<tr>
 				<td>Number of trades</td>
-				<td>433</td>
+				<td><%= Number(@number_of_trades).toFixed(0) %></td>
 			</tr>
 			<tr>
 				<td>Open</td>
-				<td>144</td>
+				<td><%= Number(@open).toFixed(0) %></td>
 			</tr>
 			<tr>
 				<td>High</td>
-				<td>179</td>
+				<td><%= Number(@high).toFixed(0) %></td>
 			</tr>
 			<tr>
 				<td>Low</td>
-				<td>115</td>
+				<td><%= Number(@low).toFixed(0)  %></td>
 			</tr>
 			<tr>
 				<td>Last</td>
-				<td>128</td>
+				<td><%= Number(@last).toFixed(0) %></td>
 			</tr>
 		</table>
 	</div>

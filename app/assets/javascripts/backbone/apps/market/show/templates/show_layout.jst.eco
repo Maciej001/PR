@@ -1,6 +1,5 @@
 <div id="session-region"></div>
 
-
 <div class="row">
 	
 	<div class="small-12 large-6 columns">
@@ -14,9 +13,11 @@
 
 </div>
 
-<div class="row">
-	<div class="small-12 columns">
-		<div id="new-order-region"></div>
+<div class="new-order-wrapper">
+	<div class="row">
+		<div class="small-12 columns">
+			<div id="new-order-region"></div>
+		</div>
 	</div>
 </div>
 

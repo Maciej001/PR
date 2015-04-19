@@ -1,13 +1,8 @@
-footer {
-	text-align:  	center;
-	height: 			90px;
-	background: 	$dark-gray;
-
-	h5.subheader {
-		height: 			90px;
-		line-height: 	90px;
-		color: 				$font-light-gray;
-		font-size:  	0.85em;
-	}
+#main-footer {
+	height: 			200px;
+	background: 	$very-dark-blue;
 }
 
+.panel.radius footer {
+	height: 60px;
+}

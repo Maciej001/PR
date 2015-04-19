@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="small-12 large-12 columns">
 		<div class="list-orders-header">
-			<h5>YOUR ACTIVE ORDERS</h5>		
+			<h5>MY ACTIVE ORDERS</h5>		
 			<button id="new-order" class="button tiny">New order</button>
 		</div>
 
@@ -13,7 +13,7 @@
 						<th>Size</th>
 						<th>Left</th>
 						<th>Price</th>
-						<th>Time</th>
+						<th>Date and time</th>
 						<th></th>
 					</tr>
 				</tr>
