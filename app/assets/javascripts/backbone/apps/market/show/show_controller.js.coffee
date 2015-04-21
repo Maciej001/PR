@@ -4,15 +4,17 @@
 		@all_orders 		= {}
 		@bids 					= {}
 		@offers 				= {}
-		@transactions 	= {}
+		# @transactions 	= {}
 		@my_orders 			= {}
 		@my_trades 			= {}
+		@all_trades			= {}
 		@stats 					= {}
 
 		initialize: =>
 			@orders_fetching 			=	App.entitiesBus.request "get:active:orders"
 			@fetching_my_trades 	= App.entitiesBus.request "get:my:executed:trades:collection"
 			@stats_fetching 			=	App.entitiesBus.request "get:session:stats"
+			@all_trades_fetching	= App.entitiesBus.request "get:all:trades"
 			
 			@layoutView = @getLayoutView()
 			
@@ -24,7 +26,10 @@
 					
 					@my_orders  = @getMyOrders @all_orders
 					@listOrdersRegion @my_orders
-					
+				
+				@all_trades_fetching.done (all_trades) =>
+					console.log 'all_trades fetched: ', all_trades
+					@all_trade = all_trades
 					@chartRegion()
 
 				@stats_fetching.done (stats) =>
@@ -137,7 +142,7 @@
 			App.mainBus.trigger "new:order:form", @layoutView.newOrderRegion, @my_orders
 
 		chartRegion: ->
-			d3.select('.chart-area').text('Chart D3!')
+			data = [50, 55, 60, 75, 73, 70, 65, 70, 80, 70, 65, 60]
 			chartView = @getChartView()
 			@show chartView, region: @layoutView.chartRegion
 

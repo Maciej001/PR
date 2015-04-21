@@ -32,8 +32,22 @@
 					defer.resolve(trades)
 			defer.promise()
 
+		getAllTrades: ->
+			defer = $.Deferred()
+			all_trades = new Entities.TradesCollection
+
+			all_trades.fetch
+				reset: 		true
+				side: 		'buy'
+				success: ->
+					defer.resolve(all_trades)
+			defer.promise()
+
 	App.entitiesBus.reply "get:new:trade:entity", ->
 		API.getNewTradeEntity()
 
 	App.entitiesBus.reply "get:my:executed:trades:collection", ->
 		API.getMyExecutedTradesCollection()
+
+	App.entitiesBus.reply "get:all:trades", ->
+		API.getAllTrades()
