@@ -4,7 +4,6 @@
 		@all_orders 		= {}
 		@bids 					= {}
 		@offers 				= {}
-		# @transactions 	= {}
 		@my_orders 			= {}
 		@my_trades 			= {}
 		@all_trades			= {}
@@ -28,7 +27,7 @@
 					@listOrdersRegion @my_orders
 				
 				@all_trades_fetching.done (all_trades) =>
-					@all_trade = all_trades
+					@all_trades = all_trades
 					@chartRegion()
 
 				@stats_fetching.done (stats) =>
@@ -36,6 +35,7 @@
 					@sessionRegion()
 
 				@fetching_my_trades.done (trades) =>
+					console.log 'my trades', trades
 					@my_trades = trades
 					@listTradesRegion @my_trades
 
@@ -141,19 +141,39 @@
 			App.mainBus.trigger "new:order:form", @layoutView.newOrderRegion, @my_orders
 
 		chartRegion: ->
-			data = [50, 55, 60, 75, 73, 70, 65, 70, 80, 70, 65, 60]
 			chartView = @getChartView()
 			@show chartView, region: @layoutView.chartRegion
-			new Chartist.Line('.ct-chart', {
-  		labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-  		series: [
-    		data
-  		]
-			}, {
-  			fullWidth: true,
-  			chartPadding: {
-    		right: 40
-  		}})	
+
+
+			trades_array = _.pluck @all_trades.toJSON(), 'price'
+			trades_array.reverse() # recent trades are last in array
+
+			console.log 'trades', @all_trades
+
+			data = 
+				labels: ['', '', '', '', '', '']
+				series: [
+					trades_array
+				]
+			
+
+			options = 
+				width: 500
+				height: 300
+
+			new Chartist.Line('.ct-chart', data, options)
+			# new Chartist.Line('.ct-chart', {
+  	# 	labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+  	# 	series: [
+   #  		data
+  	# 	]
+			# }, {
+  	# 		fullWidth: true,
+  	# 		chartPadding: {
+   #  		right: 40
+  	# 	}})	
+
+		
 
 		sessionRegion: ->
 			sessionView = @getSessionView()

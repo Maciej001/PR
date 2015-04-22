@@ -18,9 +18,6 @@
 		getNewTradeEntity: ->
 			new Entities.Trade
 
-		getTradesCollection: ->
-			new Entities.TradesCollection
-
 		getMyExecutedTradesCollection: ->
 			defer = $.Deferred()
 			trades = new Entities.TradesCollection
@@ -35,10 +32,9 @@
 		getAllTrades: ->
 			defer = $.Deferred()
 			all_trades = new Entities.TradesCollection
-
 			all_trades.fetch
-				reset: 		true
-				side: 		'buy'
+				reset: true
+				id: 627
 				success: ->
 					defer.resolve(all_trades)
 			defer.promise()
