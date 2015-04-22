@@ -20,6 +20,7 @@
 //= require_tree ./backbone/lib/entities
 //= require_tree ./backbone/lib/utilities
 //= require_tree ./backbone/lib/components
+//= require_tree ./backbone/lib/vendor
 
 //= require_tree ./backbone/entities 
 //= require_tree ./backbone/apps

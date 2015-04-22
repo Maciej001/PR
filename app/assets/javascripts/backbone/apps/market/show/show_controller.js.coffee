@@ -1,4 +1,4 @@
-@Payrollsio.module "MarketApp.Show", (Show, App, Backbone, Marionette, $, D3, _) ->
+@Payrollsio.module "MarketApp.Show", (Show, App, Backbone, Marionette, $, _) ->
 	
 	class Show.Controller extends App.Controllers.Application 
 		@all_orders 		= {}
@@ -28,7 +28,6 @@
 					@listOrdersRegion @my_orders
 				
 				@all_trades_fetching.done (all_trades) =>
-					console.log 'all_trades fetched: ', all_trades
 					@all_trade = all_trades
 					@chartRegion()
 
@@ -145,10 +144,21 @@
 			data = [50, 55, 60, 75, 73, 70, 65, 70, 80, 70, 65, 60]
 			chartView = @getChartView()
 			@show chartView, region: @layoutView.chartRegion
+			new Chartist.Line('.ct-chart', {
+  		labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+  		series: [
+    		data
+  		]
+			}, {
+  			fullWidth: true,
+  			chartPadding: {
+    		right: 40
+  		}})	
 
 		sessionRegion: ->
 			sessionView = @getSessionView()
 			@show sessionView, region: @layoutView.sessionRegion
+
 
 		getTradesListView: (trades) ->
 			new Show.ListTradesView

@@ -2,13 +2,13 @@
 
 <div class="row">
 	
-	<div class="small-12 large-6 columns">
+	<div class="small-12 large-4 columns">
 			<div id="bids-region"></div>	
 			<div id="offers-region"></div>	
 	</div>
 
-	<div class="small-12 large-6 columns">
-		<div id="chart-region"></div>
+	<div class="small-12 large-8 columns">
+		<div id="chart-region" class='ct-chart'></div>
 	</div>
 
 </div>
