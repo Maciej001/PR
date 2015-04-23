@@ -24,7 +24,6 @@
 			
 			trades.fetch
 				reset: 		true
-				user_id: 	App.currentUser.id
 				success:	->
 					defer.resolve(trades)
 			defer.promise()
@@ -33,8 +32,9 @@
 			defer = $.Deferred()
 			all_trades = new Entities.TradesCollection
 			all_trades.fetch
-				reset: true
-				id: 627
+				data: 
+					reset: true
+					side: 'buy' 
 				success: ->
 					defer.resolve(all_trades)
 			defer.promise()

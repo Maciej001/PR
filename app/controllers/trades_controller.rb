@@ -6,8 +6,13 @@ class TradesController < ActionController::Base
 	end
 
 	def index
-		# returns collection of Orders for current_user
-		respond_with Trade.where user_id: current_user
+		logger.info "index params side: #{params[:side]}"
+		logger.info "index params id: #{params[:id]}"
+		if params[:side] == "buy"
+			respond_with Trade.where side: 'buy'
+		else 
+			respond_with Trade.where user_id: current_user
+		end
 	end
 
 	def show

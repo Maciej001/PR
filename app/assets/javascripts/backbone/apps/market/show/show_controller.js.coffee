@@ -141,39 +141,42 @@
 			App.mainBus.trigger "new:order:form", @layoutView.newOrderRegion, @my_orders
 
 		chartRegion: ->
+			data = {}
+			data.labels = []
+
 			chartView = @getChartView()
 			@show chartView, region: @layoutView.chartRegion
 
-
 			trades_array = _.pluck @all_trades.toJSON(), 'price'
-			trades_array.reverse() # recent trades are last in array
+			data.series = [ trades_array.reverse() ] # series is an array of arrays
+			prices = data.series[0]
 
-			console.log 'trades', @all_trades
-
-			data = 
-				labels: ['', '', '', '', '', '']
-				series: [
-					trades_array
-				]
-			
+			prices.forEach (price) ->
+				data.labels.push ''
 
 			options = 
-				width: 500
-				height: 300
+				fullWidth: true
+				height: 400
+				chartPadding:
+					top: 20
+					right: 20
+					left: 20
+				low: 0.95 * (@minArray data.series[0])
+				high: 1.05 * (@maxArray data.series[0])
+				lineSmooth: false
+				axisY:
+					labelInterpolationFnc: (value) ->
+						value + ' K'
+
+
 
 			new Chartist.Line('.ct-chart', data, options)
-			# new Chartist.Line('.ct-chart', {
-  	# 	labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-  	# 	series: [
-   #  		data
-  	# 	]
-			# }, {
-  	# 		fullWidth: true,
-  	# 		chartPadding: {
-   #  		right: 40
-  	# 	}})	
 
-		
+		minArray: (tab) ->
+			Math.min.apply null, tab
+
+		maxArray: (tab) ->
+			Math.max.apply null, tab
 
 		sessionRegion: ->
 			sessionView = @getSessionView()
