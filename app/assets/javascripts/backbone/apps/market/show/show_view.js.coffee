@@ -19,21 +19,29 @@
 		modelEvents: 
 			"change": 	"render"
 
+	class Show.EmptyPriceView extends App.Views.ItemView
+		template: "market/show/_empty_price"
+
 	class Show.Bids extends App.Views.CompositeView
 		template: 					"market/show/_bids" 
 		childView: 					Show.Price
 		childViewContainer:	"ul"
+		emptyView:						Show.EmptyPriceView
 
 	class Show.Offers extends App.Views.CompositeView
 		template: "market/show/_offers" 
 		childView: 					Show.Price
 		childViewContainer:	"ul"
+		emptyView:						Show.EmptyPriceView
 
 	class Show.Chart extends App.Views.ItemView
 		template: "market/show/_chart"
 
 	class Show.Session extends App.Views.ItemView
 		template: "market/show/_session"
+
+	class Show.EmptyOrdersView extends App.Views.ItemView
+		template:		"market/show/_orders_empty"
 
 	class Show.ListOrderItem extends App.Views.ItemView
 		template: 	"market/show/_order_item"
@@ -49,6 +57,7 @@
 		template:							"market/show/_list_orders"
 		childView:						Show.ListOrderItem
 		childViewContainer: 	"tbody"
+		emptyView:						Show.EmptyOrdersView
 
 		triggers: 
 			"click #new-order":	"new:order:clicked"

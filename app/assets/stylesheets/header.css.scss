@@ -5,7 +5,6 @@
 .expanded ul li {
 	border-top: 	1px solid lighten(black, 5%);	
 }
-
 .top--bar-section ul li,
 .top-bar-section li:not(.has-form) a:not(.button)
 {
@@ -17,6 +16,7 @@
 
 .title-area .name h1 a {
 	font-size: 		1.2em;
+	padding-left: 20px;
 }
 
 .top-bar-section ul li.free-account a,

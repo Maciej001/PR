@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416200539) do
+ActiveRecord::Schema.define(version: 20150425181956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,12 @@ ActiveRecord::Schema.define(version: 20150416200539) do
 
   add_index "orders_trades", ["order_id"], name: "index_orders_trades_on_order_id", using: :btree
   add_index "orders_trades", ["trade_id"], name: "index_orders_trades_on_trade_id", using: :btree
+
+  create_table "portfolios", force: :cascade do |t|
+    t.integer "user_id"
+    t.decimal "cash"
+    t.decimal "open_position"
+  end
 
   create_table "stats", force: :cascade do |t|
     t.decimal  "total_contracts_traded", default: 0.0

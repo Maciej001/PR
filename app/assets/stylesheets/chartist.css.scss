@@ -149,3 +149,18 @@
     }
   }
 }
+
+@include keyframes(exploding-stroke) {
+  0% {
+    stroke-width: 2px;
+    opacity: 1;
+  }
+  100% {
+    stroke-width: 30px;
+    opacity:      0;
+  }
+}
+
+.ct-chart .ct-series.ct-series-a .ct-point  {
+  @include animation(exploding-stroke 2s ease-out infinite);
+}

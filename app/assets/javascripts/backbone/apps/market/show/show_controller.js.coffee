@@ -157,6 +157,7 @@
 			options = 
 				fullWidth: true
 				height: 400
+				showArea: true
 				chartPadding:
 					top: 20
 					right: 20
@@ -166,11 +167,9 @@
 				lineSmooth: false
 				axisY:
 					labelInterpolationFnc: (value) ->
-						value + ' K'
+						Math.floor(value) + ' K'
 
-
-
-			new Chartist.Line('.ct-chart', data, options)
+			chart = new Chartist.Line('.ct-chart', data, options)	
 
 		minArray: (tab) ->
 			Math.min.apply null, tab
@@ -338,6 +337,12 @@
 
 			@stats.save()
 
+		addToChart: (order) ->
+			console.log "adding to chart", order
+			@all_trades.add order
+			@chartRegion()
+
+
 		executeTrade: (new_order) ->
 			removed_orders = []
 			size_left = parseInt new_order.get('size_left')
@@ -355,6 +360,7 @@
 						@addOrder new_order
 						@bids.add new_order
 						size_left = 0 # to stop the loop
+
 					else 
 
 						if (size_left > order_size_left)
@@ -362,11 +368,14 @@
 							@saveTrade { price: offer_price, size: order_size_left, user_id:	order.get('user_id'), side: 'sell' } 	# Seller
 							
 							@updateStats offer_price, order_size_left
-							console.log 'petlowy trade:', offer_price, order_size_left
 
 							size_left -= order_size_left
 							order_size_left = 0
-						
+
+							chart_order = App.entityBus.request "get:new:trade:entity"
+							chart_order.set 'price', offer_price
+							@addToChart chart_order
+
 						else if (size_left is order_size_left)
 							@saveTrade { price: offer_price, size: order_size_left, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
 							@saveTrade { price: offer_price, size: order_size_left, user_id:	order.get('user_id'), side: 'sell' } 	# Seller
@@ -375,6 +384,8 @@
 							console.log 'petlowy trade:', offer_price, order_size_left
 							
 							size_left = order_size_left = 0
+
+							@addToChart new_order
 
 						else 
 							@saveTrade { price: offer_price, size: size_left, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
@@ -386,6 +397,8 @@
 							order_size_left -= size_left 
 							size_left = 0
 							order.save({size_left: order_size_left})
+
+							@addToChart new_order
 
 						if order_size_left is 0 
 							order.save({size_left: 0, state: 'executed'})
@@ -425,6 +438,10 @@
 
 							size_left -= order_size_left
 							order_size_left = 0
+
+							chart_order = App.entityBus.request "get:new:trade:entity"
+							chart_order.set 'price', bid_price
+							@addToChart chart_order
 						
 						else if (size_left is order_size_left)
 							@saveTrade { price: bid_price, size: order_size_left, user_id:	App.currentUser.id, 	side: 'sell' } 	# I Sell
@@ -433,6 +450,8 @@
 							@updateStats bid_price, order_size_left
 							
 							size_left = order_size_left = 0
+
+							@addToChart new_order
 
 						else # small trade single
 							@saveTrade { price: bid_price, size: size_left, user_id:	App.currentUser.id, 	side: 'sell' } 	# I Sell
@@ -443,6 +462,8 @@
 							order_size_left -= size_left 
 							size_left = 0
 							order.save({size_left: order_size_left})
+
+							@addToChart new_order
 
 						if order_size_left is 0 
 							order.save({size_left: 0, state: 'executed'})
