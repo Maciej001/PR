@@ -11,7 +11,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     super
     @portfolio = Portfolio.new
-    @portfolio.id = current_user.id
+    @portfolio.user_id = current_user.id
     @portfolio.cash = 100000
     @portfolio.open_position = 0
     @portfolio.save
