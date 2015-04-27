@@ -1,45 +1,41 @@
+
+.header-wrapper {
+	margin-top: 10px;
+}
 #jumbo {
 	width: 100%;
-	height: 680px;
-	@include background(linear-gradient(top, rgba(black, .65), rgba(black, 0) ), image-url('las_vegas.jpg'));
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: cover;
-
+	margin-bottom: 80px;
 	text-align: center; 
 	padding-top: 100px;
 
-	#{headings()} {
-		display: inline-block;
-		padding: 5px 20px;
-		background: rgba(0,0,0, 0.6);
-		font-weight: 300;
-		color: $font-very-light-gray;
-	}
-
-	.full-line {
-		width: 100%;
+	h1 {
+		color: $light-blue;
 	}
 
 	a {
 		display: inline-block;
 		margin-top: 20px;
 		padding: 15px 35px;
-		color: $white;
+		color: $light-blue;
 		font-size: 1.4em;
-		background: $yellow;
+		background: white;
 		@include border-radius($small-radius);
+		border: 2px solid $light-blue;
 
 		&:hover {
-			background: darken($yellow, 10%);
-			@include transition(all, 0.3s);
+			color: lighten( $very-light-blue, 30%);
+			background: $light-blue;
+			border: 2px solid $light-blue;
+			@include transition(all, 0.2s);
 		}
 
 	}
 }
 
 #how-it-works {
+	background: $blue;
 	margin-top: 40px;
+	padding: 40px 0 40px 0;
 
 	.headline {
 		text-align: center;
@@ -47,20 +43,33 @@
 	}
 	
 	#{headings()} {
-		color: $dark-gray;
+		color: white;
 	}
 
 	p {
-		color: $light-gray;
+		color: lighten( $very-light-blue, 10%);
+	}
+
+	a {
+		color: lighten( $very-light-blue, 10%);
+		text-decoration: underline;
 	}
 }
 
 #contract-standard {
-	margin-top: 40px;
 	padding: 40px 0;
-	background: $yellow;
+	background: $dark-blue;
 	text-align: center;
 	#{headings()}, p {
-		color: $dark-gray;
+		color: lighten( $very-light-blue, 10%);
 	}
+}
+
+.header-center {
+	width: 100%;
+	text-align: center;
+}
+
+.chart-area {
+
 }

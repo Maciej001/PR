@@ -1,6 +1,9 @@
 #home-page#layout
-	= render 'header'
+	.header-wrapper
+		.row
+			= render 'header'
 	= render 'main'
 	
 - unless user_signed_in?
 	= render 'footer'
+

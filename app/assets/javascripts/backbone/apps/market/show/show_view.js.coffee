@@ -9,6 +9,7 @@
 			newOrderRegion:		"#new-order-region"
 			chartRegion: 			"#chart-region"
 			sessionRegion: 		"#session-region"
+			portfolioRegion: 	"#portfolio-region"
 			listOrdersRegion:	"#list-orders-region"
 			listTradesRegion: "#list-trades-region"
 
@@ -39,6 +40,9 @@
 
 	class Show.Session extends App.Views.ItemView
 		template: "market/show/_session"
+
+	class Show.Portfolio extends App.Views.ItemView
+		template: "market/show/_portfolio"
 
 	class Show.EmptyOrdersView extends App.Views.ItemView
 		template:		"market/show/_orders_empty"

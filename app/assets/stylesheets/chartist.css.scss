@@ -164,3 +164,8 @@
 .ct-chart .ct-series.ct-series-a .ct-point  {
   @include animation(exploding-stroke 2s ease-out infinite);
 }
+
+.chart-area {
+  height: 300px;
+  
+}

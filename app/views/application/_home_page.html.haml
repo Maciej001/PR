@@ -1,15 +1,14 @@
 
 #jumbo
+	.row 
+		.small-8.small-offset-2.large-6.large-offset-3.columns
+			.chart-area.ct-perfect-fourth
 	.row
 		.small-centered.large-centered
 			.full-line
-				%h1 Trade Payrolls, earn Payrloins
-			.full-line
-				%h5 for
-			.full-line
-				%h2 BRAVE and EXPERIANCED only
+				%h1 Trade Payrolls. Earn Payrloins.
 
-			= link_to  "I want to try!", new_user_registration_path
+			= link_to  "Create an Account", new_user_registration_path
 
 #how-it-works
 	.row
@@ -18,7 +17,8 @@
 
 	.row
 		.small-12.large-4.columns
-			%h4 WHY
+			.header-center
+				%h4 WHY
 			%p
 				Payrollsio is the simple platform crafted lovingly to enable you to trade Non-farm Payrolls for fun only.
 				As we all know NFPs is pretty much a random number. You know nothing John Snow! 
@@ -27,7 +27,8 @@
 				We talk payrolls, we speculate and then we win!
 
 		.small-12.large-4.columns
-			%h4 HOW
+			.header-center
+				%h4 HOW
 			%p 
 				When you open a 
 				= link_to  "Free Account", new_user_registration_path
@@ -39,7 +40,8 @@
 				The winner takes it all. The loser's standing small.
 
 		.small-12.large-4.columns
-			%h4 WHEN
+			.header-center
+				%h4 WHEN
 			%p 
 				The number is released on the first Friday of every month at 1:30 pm GMT.
 				Do not miss, it's exciting day. The platform opens at 8.00 am GMT, so you have 5.5 hours for your 
@@ -57,6 +59,40 @@
 				We talk thousands. 1 tick is worth 10 Payrloins. You start with 100.000 Payrloins. 
 			%h4 Example
 			%p
-				You bought 10 contracts at 245k (245.000). Actual figure was to your suprise 267.000. 
-				Your profit is 10 contracts * (267 - 245) * 10 tick value. That is 2.200 Payrloins!
+				You bought 10 contracts at 245k (245.000). Actual figure was, to your suprise, 267.000.
+				%br/
+				Your profit is 10 contracts * (267 - 245) * 10 tick value. 
+				%br/
+				That is 2.200 Payrloins!
+				%br/
 				Congratulations!
+
+:javascript
+	$(document).ready(function() {
+		var data = {
+			labels: ['', '', '', ''],
+			series: [
+				[250, 400, 300, 450]
+			]
+		};
+
+		var options = {
+			showPoint: 		true,
+			fullWidth: 		true,
+			showArea: 		true,
+			lineSmooth: 	false,
+			low: 					100,
+			axisY: {
+				showGrid: 	true,
+				showLabel: false,
+				labelInterpolationFnc: function(value) {
+					return value + 'K';
+				}
+			},
+			axisX: {
+				offeset: 100
+			}
+		};
+
+		new Chartist.Line('.chart-area', data, options);
+	});

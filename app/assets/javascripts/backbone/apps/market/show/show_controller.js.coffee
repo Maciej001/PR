@@ -8,12 +8,14 @@
 		@my_trades 			= {}
 		@all_trades			= {}
 		@stats 					= {}
+		@portfolio 			= {}
 
 		initialize: =>
 			@orders_fetching 			=	App.entitiesBus.request "get:active:orders"
 			@fetching_my_trades 	= App.entitiesBus.request "get:my:executed:trades:collection"
 			@stats_fetching 			=	App.entitiesBus.request "get:session:stats"
 			@all_trades_fetching	= App.entitiesBus.request "get:all:trades"
+			@portfolio_fetching 	= App.entitiesBus.request "get:current:user:portfolio", App.currentUser
 			
 			@layoutView = @getLayoutView()
 			
@@ -35,9 +37,13 @@
 					@sessionRegion()
 
 				@fetching_my_trades.done (trades) =>
-					console.log 'my trades', trades
 					@my_trades = trades
 					@listTradesRegion @my_trades
+
+				@portfolio_fetching.done (portfolio) =>
+					@portfolio = portfolio
+					@recalculatePortfolio()
+					@portfolioRegion()
 
 			App.mainBus.on "new:order:added", (new_order) =>
 				@addNewOrder new_order
@@ -162,8 +168,8 @@
 					top: 20
 					right: 20
 					left: 20
-				low: 0.95 * (@minArray data.series[0])
-				high: 1.05 * (@maxArray data.series[0])
+				low: (@minArray data.series[0]) - 1
+				high: (@maxArray data.series[0]) + 1
 				lineSmooth: false
 				axisY:
 					labelInterpolationFnc: (value) ->
@@ -171,16 +177,18 @@
 
 			chart = new Chartist.Line('.ct-chart', data, options)	
 
-		minArray: (tab) ->
-			Math.min.apply null, tab
-
-		maxArray: (tab) ->
-			Math.max.apply null, tab
 
 		sessionRegion: ->
 			sessionView = @getSessionView()
 			@show sessionView, region: @layoutView.sessionRegion
 
+		portfolioRegion: ->
+			portfolioView = @getPortfolioView()
+			@show portfolioView, region: @layoutView.portfolioRegion
+
+		getPortfolioView: ->
+			new Show.Portfolio
+				model: @portfolio
 
 		getTradesListView: (trades) ->
 			new Show.ListTradesView
@@ -207,6 +215,13 @@
 
 		getLayoutView: ->
 			new Show.LayoutView
+
+
+		minArray: (tab) ->
+			Math.min.apply null, tab
+
+		maxArray: (tab) ->
+			Math.max.apply null, tab
 
 		highest_bid: ->
 			if @bids.length > 0 
@@ -480,7 +495,19 @@
 				for order in removed_orders
 					@bids.remove order
 
+				@recalculatePortfolio()
 
+		recalculatePortfolio: =>
+			@fetching_my_trades.done (portfolio) =>
+				@portfolio.set 'number_of_trades', @my_trades.length
+				console.log "portfolio ", portfolio
+				console.log "my_trades", @my_trades
+
+				contracts_traded = _.reduce @my_trades
+				console.log 'contracts_traded', contracts_traded
+
+
+			# @portfolio.contracts_traded = contracts_traded
 
 
 

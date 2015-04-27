@@ -1,0 +1,29 @@
+<div class="stats-data">
+	<h5>MY PORTFOLIO</h5>
+	<table>
+		<tr>
+			<td>Contracts traded</td>
+			<td><%= Number(@contracts_traded).toFixed(0) %></td>
+		</tr>
+		<tr>
+			<td>Trades</td>
+			<td><%= Number(@number_of_trades).toFixed(0) %></td>
+		</tr>
+		<tr>
+			<td>Open position</td>
+			<td><%= Number(@open).toFixed(0) %></td>
+		</tr>
+		<tr>
+			<td>Open position valuation</td>
+			<td><%= Number(@high).toFixed(0) %>&nbsp PRLs</td>
+		</tr>
+		<tr>
+			<td>Cash</td>
+			<td><%= Number(@cash).toFixed(0)%>&nbsp PRLs</td>
+		</tr>
+		<tr>
+			<td>Total valuation</td>
+			<td><%= Number(@last).toFixed(0) %>&nbsp PRLs</td>
+		</tr>
+	</table>
+</div>

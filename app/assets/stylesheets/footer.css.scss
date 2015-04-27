@@ -1,6 +1,13 @@
 #main-footer {
-	height: 			200px;
+	height: 			100px;
 	background: 	$very-dark-blue;
+	text-align: center;
+
+	h5 {
+		color: lighten($very-dark-blue, 15%);
+		line-height: 100px;
+		height:  		100px;
+	}
 }
 
 .panel.radius footer {

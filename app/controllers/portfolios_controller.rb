@@ -31,7 +31,7 @@ class PortfoliosController < ActionController::Base
 	private
 
 		def portfolio_params
-			params.require(:portfolio).permit(:user_id, :cash, :open_position)
+			params.require(:portfolio).permit(:id, :user_id, :cash, :open_position)
 		end
 
 end

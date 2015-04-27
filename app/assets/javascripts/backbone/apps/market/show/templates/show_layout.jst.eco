@@ -1,4 +1,13 @@
-<div id="session-region"></div>
+<div class="info-panel">
+	<div class="row">
+		<div class="small-12 large-4 columns">
+			<div id="session-region"></div>
+		</div>
+		<div class="small-12 large-8 columns">
+			<div id="portfolio-region"></div>
+		</div>
+	</div>
+</div>	
 
 <div class="row">
 	
