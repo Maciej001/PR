@@ -1,8 +1,12 @@
 
 .header-wrapper {
-	margin-top: 10px;
 	margin-bottom: 10px;
 }
+
+.header-wrapper.sign {
+	background: white;
+}
+
 #jumbo {
 	width: 100%;
 	margin-bottom: 80px;

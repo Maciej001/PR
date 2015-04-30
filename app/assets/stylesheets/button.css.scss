@@ -2,11 +2,12 @@ table ul {
 	margin-bottom: 0;
 }
 
-button.button, button.tiny, button.secondary, .button.secondary {
+button, .button, button.tiny, button.secondary, .button.secondary {
 	display: inline-block;
+	padding: 0;
 	background: $dark-blue;
 	border: 3px solid white;
-	@include border-radius(5px);
+	@include border-radius($medium-radius);
 	color: white;
 
 	margin: 0;
@@ -14,5 +15,23 @@ button.button, button.tiny, button.secondary, .button.secondary {
 	&:hover {
 		background: white;
 		color: $dark-blue;
+	}
+}
+
+.button-centered {
+	text-align: center;
+}
+
+input[type="submit"] {
+	margin: 0;
+	width: 100%;
+	line-height: 42px;
+	height: 42px;
+	background: $light-blue;
+	border: none;
+	@include border-radius($medium-radius);
+	&:hover {
+		background: lighten($light-blue, 5%);
+		color: white;
 	}
 }

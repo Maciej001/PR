@@ -4,13 +4,12 @@
 <div class="row" id="devise-form">
   <div class="small-12 small-centered large-6 large-centered columns devise-form">
 
-
-    <div id="devise-form-header">
-      <h2>Edit <%= resource_name.to_s.humanize %></h2>
-    </div>
-
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
       <%= devise_error_messages! %>
+
+      <div id="devise-form-header">
+        <h4>Edit <%= resource_name.to_s.humanize %></h4>
+      </div>
 
       <div class="field">
         <%= f.label :email %>
@@ -37,7 +36,7 @@
       </div>
 
       <div class="field">
-        <%= f.label :current_password %> <em>We need your current password to confirm your changes</em>
+        <em>We need your current password to confirm your changes</em>
         <%= f.password_field :current_password, autocomplete: "off" %>
       </div>
 
