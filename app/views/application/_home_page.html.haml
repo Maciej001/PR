@@ -2,11 +2,12 @@
 #jumbo
 	.row 
 		.small-8.small-offset-2.large-6.large-offset-3.columns
-			.chart-area.ct-perfect-fourth
+			.chart-area
+				.ct-chart.ct-perfect-fourth
 	.row
 		.small-centered.large-centered
 			.full-line
-				%h1 Trade Payrolls. Earn Payrloins.
+				%h1 Trade Payrolls. Earn Paycoins.
 
 			= link_to  "Create an Account", new_user_registration_path
 
@@ -32,9 +33,9 @@
 			%p 
 				When you open a 
 				= link_to  "Free Account", new_user_registration_path
-				, we give you some pocket money. 100.000 Payrloins exactly.
+				, we give you some pocket money. 100.000 Paycoins exactly.
 				This is when the adventure begins and adrenaline starts pumping. 
-				You are free to trade. Sell or buy, do whatever you want and win as much payrloins as you
+				You are free to trade. Sell or buy, do whatever you want and win as much paycoins as you
 				can. 
 			%p
 				The winner takes it all. The loser's standing small.
@@ -56,43 +57,38 @@
 	.row
 		.small-12.large-12.large-centered.columns
 			%p
-				We talk thousands. 1 tick is worth 10 Payrloins. You start with 100.000 Payrloins. 
+				We talk thousands. 1 tick is worth 10 Paycoins. You start with 100.000 Paycoins. 
 			%h4 Example
 			%p
 				You bought 10 contracts at 245k (245.000). Actual figure was, to your suprise, 267.000.
 				%br/
 				Your profit is 10 contracts * (267 - 245) * 10 tick value. 
 				%br/
-				That is 2.200 Payrloins!
+				That is 2.200 Paycoins!
 				%br/
 				Congratulations!
 
 :javascript
 	$(document).ready(function() {
 		var data = {
-			labels: ['', '', '', ''],
+			labels: ['', '', '', '','' ,'',''],
 			series: [
-				[250, 400, 300, 450]
+				[250, 400, 300, 450, 350, 500,950]
 			]
 		};
 
 		var options = {
 			showPoint: 		true,
 			fullWidth: 		true,
-			showArea: 		true,
-			lineSmooth: 	false,
+			lineSmooth: 	true,
 			low: 					100,
 			axisY: {
 				showGrid: 	true,
-				showLabel: false,
-				labelInterpolationFnc: function(value) {
-					return value + 'K';
-				}
 			},
-			axisX: {
-				offeset: 100
+			chartPadding: {
+				right: 20
 			}
 		};
 
-		new Chartist.Line('.chart-area', data, options);
+		new Chartist.Line('.ct-chart', data, options);
 	});

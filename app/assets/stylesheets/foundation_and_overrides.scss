@@ -1407,7 +1407,7 @@ $topbar-link-bg-hover: $blue;
 // $topbar-button-font-size: 0.75rem;
 // $topbar-button-top: 7px;
 
-$topbar-dropdown-label-color: $blue;
+$topbar-dropdown-label-color: $light-blue;
 // $topbar-dropdown-label-text-transform: uppercase;
 // $topbar-dropdown-label-font-weight: $font-weight-bold;
 // $topbar-dropdown-label-font-size: rem-calc(10);
@@ -1417,8 +1417,8 @@ $topbar-dropdown-label-bg: $blue;
 // $topbar-menu-link-transform: uppercase;
 // $topbar-menu-link-font-size: rem-calc(13);
 // $topbar-menu-link-weight: $font-weight-bold;
-$topbar-menu-link-color: $blue;
-$topbar-menu-icon-color: $blue;
+$topbar-menu-link-color: $light-blue;
+$topbar-menu-icon-color: $light-blue;
 // $topbar-menu-link-color-toggled: $jumbo;
 // $topbar-menu-icon-color-toggled: $jumbo;
 
@@ -1429,8 +1429,8 @@ $topbar-menu-icon-color: $blue;
 // $topbar-media-query: $medium-up;
 
 // Divider Styles
-// $topbar-divider-border-bottom: solid 1px  scale-color($topbar-bg-color, $lightness: 13%);
-// $topbar-divider-border-top: solid 1px scale-color($topbar-bg-color, $lightness: -50%);
+$topbar-divider-border-bottom: solid 1px  $light-blue;
+$topbar-divider-border-top: solid 1px $light-blue;
 
 // Sticky Class
 // $topbar-sticky-class: ".sticky";

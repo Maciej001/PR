@@ -1,12 +1,13 @@
 
 .header-wrapper {
 	margin-top: 10px;
+	margin-bottom: 10px;
 }
 #jumbo {
 	width: 100%;
 	margin-bottom: 80px;
 	text-align: center; 
-	padding-top: 100px;
+	padding-top: 20px;
 
 	h1 {
 		color: $light-blue;
@@ -70,6 +71,7 @@
 	text-align: center;
 }
 
-.chart-area {
-
+.blue-body {
+	background: $light-blue;
 }
+

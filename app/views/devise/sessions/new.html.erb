@@ -1,36 +1,36 @@
-<div class="header-wrapper">
+<!-- <div class="header-wrapper">
   <div class="row">
     <%= render "header" %>
   </div>  
-</div>
+</div> -->
 
 <div class="row" id="devise-form">
-  <div class="small-12 small-centered large-6 large-centered columns devise-form">
-    
-    <div id="devise-form-header">
-      <h2>Sign in to Your Account</h2>
-    </div>
+  <div class="small-10 small-centered large-6 large-centered columns devise-form">
 
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { autocomplete: 'off' }) do |f| %>
 
       <%= devise_error_messages! %>
 
+      <%= f.email_field :email, style: "display:none;"%>
+      <%= f.password_field :password, style: "display:none;"%>
+
+
       <div class="field">
-        <%= f.label :email %>
-        <%= f.email_field :email, autofocus: true %>
+        <!-- <%= f.label :email %> -->
+        <%= f.email_field :email, autofocus: true, placeholder: "Your email", input_html: {autocomplete: "off"} %>
       </div>
 
       <div class="field">
-        <%= f.label :password %>
-        <%= f.password_field :password, autocomplete: "off" %>
+        <!-- <%= f.label :password %> -->
+        <%= f.password_field :password, autocomplete: "off", placeholder: "Password" %>
       </div>
 
-      <% if devise_mapping.rememberable? -%>
+<!--       <% if devise_mapping.rememberable? -%>
         <div class="field">
           <%= f.check_box :remember_me %>
           <%= f.label :remember_me %>
         </div>
-      <% end -%>
+      <% end -%> -->
 
       <div class="actions button-centered">
         <%= f.submit "Sign in", class: "button"%>
@@ -44,3 +44,8 @@
 
   </div>
 </div>
+
+<script>
+  $("body").addClass("blue-body");
+
+</script>

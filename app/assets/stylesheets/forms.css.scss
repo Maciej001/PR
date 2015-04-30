@@ -6,9 +6,12 @@ form footer {
 	margin-left: 20px;
 	background: none;
 }
-form input[type=text] {
-	width: 165px;
-	@include border-radius(5px);
+
+form input[type=text],
+form input[type=email],
+form input[type=password] {
+
+	@include border-radius($small-radius);
 	padding: 7px 15px;
 }
 
