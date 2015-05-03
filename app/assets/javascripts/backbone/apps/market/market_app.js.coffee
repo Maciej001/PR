@@ -5,10 +5,10 @@
 		show: ->
 			new MarketApp.Show.Controller
 
-		newOrder: (region, collection) -> 
+		newOrder: (region, model) -> 
 			new MarketApp.New.Controller
 				region: region
-				collection: collection
+				model: model
 
 	MarketApp.on "start", ->
 		API.show()
@@ -16,8 +16,8 @@
 		# Id is used in eco templates to indicate eg. my own bid
 		Window.currentUser = App.currentUser.id
 
-	App.mainBus.on "new:order:form", (region, orders_collection) ->
-		API.newOrder region, orders_collection
+	App.mainBus.on "new:order:form", (region, model) ->
+		API.newOrder region, model
 
 
 

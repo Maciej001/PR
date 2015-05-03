@@ -1,4 +1,4 @@
-<button class="btn-price">
+<button class="btn-price js-bid-price">
 	<% if @user_id == Window.currentUser: %>
 		<i class="fi-lightbulb"></i>
 	<% else: %>

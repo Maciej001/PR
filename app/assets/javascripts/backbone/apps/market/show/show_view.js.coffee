@@ -13,25 +13,38 @@
 			listOrdersRegion:	"#list-orders-region"
 			listTradesRegion: "#list-trades-region"
 
-	class Show.Price extends App.Views.ItemView
-		template: "market/show/_price"
+	class Show.BidPrice extends App.Views.ItemView
+		template: "market/show/_bid_price"
 		tagName:	"li"
 
 		modelEvents: 
 			"change": 	"render"
+		
+		triggers: 
+			"click .js-bid-price":	"bid:price:clicked"
+
+	class Show.AskPrice extends App.Views.ItemView
+		template: "market/show/_ask_price"
+		tagName:	"li"
+
+		modelEvents: 
+			"change": 	"render"
+
+		triggers: 
+			"click .js-ask-price":	"ask:price:clicked"
 
 	class Show.EmptyPriceView extends App.Views.ItemView
 		template: "market/show/_empty_price"
 
 	class Show.Bids extends App.Views.CompositeView
 		template: 					"market/show/_bids" 
-		childView: 					Show.Price
+		childView: 					Show.BidPrice
 		childViewContainer:	"ul"
 		emptyView:						Show.EmptyPriceView
 
 	class Show.Offers extends App.Views.CompositeView
 		template: "market/show/_offers" 
-		childView: 					Show.Price
+		childView: 					Show.AskPrice
 		childViewContainer:	"ul"
 		emptyView:						Show.EmptyPriceView
 

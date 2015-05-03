@@ -165,10 +165,6 @@
   background: none;
 }
 
-.ct-chart .ct-series.ct-series-a .ct-point  {
-  @include animation(exploding-stroke 2s ease-out infinite);
-}
-
 .ct-chart .ct-series.ct-series-a .ct-point {
   stroke: $light-blue;
 }

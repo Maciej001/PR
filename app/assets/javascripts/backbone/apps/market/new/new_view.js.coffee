@@ -1,6 +1,11 @@
 @Payrollsio.module "MarketApp.New", (New, App, Backbone, Marionette, $, _) ->
 
 	class New.OrderView extends App.Views.ItemView
+
+		initialize: (args) ->
+			{ model } = args
+
+
 		template: "market/new/new_order_form"
 
 		# add config for your form wrapper

@@ -139,12 +139,23 @@
 			bidsView = @getBidsView bids
 			@show bidsView, region: @layoutView.bidsRegion
 
+			@listenTo bidsView, "childview:bid:price:clicked", (args) ->
+				{model} = args
+				model.set('side', "sell")
+				@newOrderClicked model
+
+
 		offersRegion: (offers) ->
 			offersView = @getOffersView offers
 			@show offersView, region: @layoutView.offersRegion
 
-		newOrderClicked: ->
-			App.mainBus.trigger "new:order:form", @layoutView.newOrderRegion, @my_orders
+			@listenTo offersView, "childview:ask:price:clicked", (args) ->
+				{model} = args
+				model.set('side', "buy")
+				@newOrderClicked model
+
+		newOrderClicked: (order)->
+			App.mainBus.trigger "new:order:form", @layoutView.newOrderRegion, order
 
 		chartRegion: ->
 			data = {}

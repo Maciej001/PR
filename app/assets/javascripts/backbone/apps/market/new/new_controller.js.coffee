@@ -3,9 +3,16 @@
 	class New.Controller extends App.Controllers.Application
 
 		initialize: (args) ->
-			{ region, collection } = args
-			
+
+			{ model } = args
+
 			new_order = App.entitiesBus.request "new:order:entity"
+
+			if model 
+				new_order.set('price', model.get('price'))
+				new_order.set('size', model.get('size'))
+				new_order.set('side', model.get('side'))
+			
 			new_order.set "user_id", String(App.currentUser.id)
 
 			newView = @getNewView new_order
