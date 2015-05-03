@@ -3,27 +3,33 @@
 	<table>
 		<tr>
 			<td>Contracts traded</td>
-			<td><%= Number(@contracts_traded).toFixed(0) %></td>
+			<td class='right-cell'><%= Number(@contracts_traded).toFixed(0) %></td>
 		</tr>
 		<tr>
 			<td>Trades</td>
-			<td><%= Number(@number_of_trades).toFixed(0) %></td>
+			<td class='right-cell'><%= Number(@number_of_trades).toFixed(0) %></td>
 		</tr>
 		<tr>
 			<td>Open position</td>
-			<td><%= Number(@open).toFixed(0) %></td>
+			<% if Number(@open_position) < 0: %>
+				<td class='right-cell'><%= Number(@open_position).toFixed(0) %>&nbsp ( short )</td>
+			<% else if Number(@open_position) == 0: %>
+				<td class='right-cell'>0</td>
+			<% else: %>
+				<td class='right-cell'><%= Number(@open_position).toFixed(0) %>&nbsp (long)</td>
+			<% end %>
 		</tr>
 		<tr>
 			<td>Open position valuation</td>
-			<td><%= Number(@high).toFixed(0) %>&nbsp PRLs</td>
+			<td class='right-cell'><%= Number(@open_postition_valuation).toFixed(0) %>&nbsp PC</td>
 		</tr>
 		<tr>
 			<td>Cash</td>
-			<td><%= Number(@cash).toFixed(0)%>&nbsp PRLs</td>
+			<td class='right-cell'><%= Number(@cash).toFixed(0)%>&nbsp PC</td>
 		</tr>
 		<tr>
 			<td>Total valuation</td>
-			<td><%= Number(@last).toFixed(0) %>&nbsp PRLs</td>
+			<td class='right-cell'><%= Number(@total_valuation).toFixed(0) %>&nbsp PC</td>
 		</tr>
 	</table>
 </div>

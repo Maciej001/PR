@@ -40,10 +40,11 @@
 					@my_trades = trades
 					@listTradesRegion @my_trades
 
-				@portfolio_fetching.done (portfolio) =>
-					@portfolio = portfolio
-					@recalculatePortfolio()
-					@portfolioRegion()
+					# execute after @my_trades fetched
+					@portfolio_fetching.done (portfolio) =>
+						@portfolio = portfolio
+						@recalculatePortfolio()
+						@portfolioRegion()
 
 			App.mainBus.on "new:order:added", (new_order) =>
 				@addNewOrder new_order
@@ -141,8 +142,9 @@
 
 			@listenTo bidsView, "childview:bid:price:clicked", (args) ->
 				{model} = args
-				model.set('side', "sell")
-				@newOrderClicked model
+				if model.get('user_id') isnt App.currentUser.id
+					model.set('side', "sell")
+					@newOrderClicked model
 
 
 		offersRegion: (offers) ->
@@ -151,8 +153,9 @@
 
 			@listenTo offersView, "childview:ask:price:clicked", (args) ->
 				{model} = args
-				model.set('side', "buy")
-				@newOrderClicked model
+				if model.get('user_id') isnt App.currentUser.id
+					model.set('side', "buy")
+					@newOrderClicked model
 
 		newOrderClicked: (order)->
 			App.mainBus.trigger "new:order:form", @layoutView.newOrderRegion, order
@@ -164,7 +167,12 @@
 			chartView = @getChartView()
 			@show chartView, region: @layoutView.chartRegion
 
-			trades_array = _.pluck @all_trades.toJSON(), 'price'
+			#find only buy trades
+			chart_trades =  _.where @all_trades.toJSON(), {side: "buy"}
+
+			# extract price array from buy trades
+			trades_array = _.pluck chart_trades, 'price'
+
 			data.series = [ trades_array.reverse() ] # series is an array of arrays
 			prices = data.series[0]
 
@@ -189,10 +197,10 @@
 
 
 		sessionRegion: ->
-			sessionView = @getSessionView()
+			sessionView = @getSessionView @stats
 			@show sessionView, region: @layoutView.sessionRegion
 
-		portfolioRegion: ->
+		portfolioRegion: =>
 			portfolioView = @getPortfolioView()
 			@show portfolioView, region: @layoutView.portfolioRegion
 
@@ -219,9 +227,9 @@
 		getChartView: ->
 			new Show.Chart
 
-		getSessionView: ->
+		getSessionView: (stats) ->
 			new Show.Session 
-				model: @stats
+				model: stats
 
 		getLayoutView: ->
 			new Show.LayoutView
@@ -305,18 +313,6 @@
 
 			false
 
-		saveTrade: (data) ->
-			trade = App.entitiesBus.request "get:new:trade:entity"
-			trade.set data
-			trade.set 
-				created_at: new Date()
-				updated_at: new Date()
-			trade.save()
-
-			# for current user add trade to @my_trades
-			if data.user_id is App.currentUser.id
-				@my_trades.add trade
-
 
 		# Function decides what to do with newly submitted order - we know now that we don't trade with ourselves
 		addNewOrder: (new_order) ->
@@ -362,13 +358,22 @@
 
 			@stats.save()
 
-		addToChart: (order) ->
-			console.log "adding to chart", order
-			@all_trades.add order
-			@chartRegion()
+		saveTrade: (data) ->
+			trade = App.entitiesBus.request "get:new:trade:entity"
+			trade.set data
+			trade.set 
+				created_at: new Date()
+				updated_at: new Date()
+			trade.save()
+
+			@all_trades.add trade
+
+			if data.user_id is App.currentUser.id
+				@my_trades.add trade
 
 
 		executeTrade: (new_order) ->
+			trades_stats = []
 			removed_orders = []
 			size_left = parseInt new_order.get('size_left')
 			new_order_price = parseInt new_order.get('price')
@@ -388,42 +393,35 @@
 
 					else 
 
-						if (size_left > order_size_left)
+						if (size_left > order_size_left) # want to buy more than offer
 							@saveTrade { price: offer_price, size: order_size_left, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
 							@saveTrade { price: offer_price, size: order_size_left, user_id:	order.get('user_id'), side: 'sell' } 	# Seller
 							
-							@updateStats offer_price, order_size_left
+							# add trade to trades statistics array
+							trades_stats.push { price: offer_price, size:	order_size_left, side: 'buy' }
 
 							size_left -= order_size_left
 							order_size_left = 0
-
-							chart_order = App.entityBus.request "get:new:trade:entity"
-							chart_order.set 'price', offer_price
-							@addToChart chart_order
-
-						else if (size_left is order_size_left)
+							
+						else if (size_left is order_size_left) # buy what's on the offer
 							@saveTrade { price: offer_price, size: order_size_left, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
 							@saveTrade { price: offer_price, size: order_size_left, user_id:	order.get('user_id'), side: 'sell' } 	# Seller
 
-							@updateStats offer_price, order_size_left
-							console.log 'petlowy trade:', offer_price, order_size_left
+							# add trade to trades statistics array
+							trades_stats.push { price: offer_price, size:	order_size_left, side: 'buy' }
 							
 							size_left = order_size_left = 0
 
-							@addToChart new_order
-
-						else 
+						else #buy less then offer
 							@saveTrade { price: offer_price, size: size_left, user_id:	App.currentUser.id, 	side: 'buy' } 	# Buyer
 							@saveTrade { price: offer_price, size: size_left, user_id:	order.get('user_id'), side: 'sell' } 	# Seller
 
-							@updateStats offer_price, size_left
-							console.log 'petlowy trade:', offer_price, size_left
+							# add trade to trades statistics array
+							trades_stats.push { price: offer_price, size:	size_left, side: 'buy' }
 
 							order_size_left -= size_left 
 							size_left = 0
 							order.save({size_left: order_size_left})
-
-							@addToChart new_order
 
 						if order_size_left is 0 
 							order.save({size_left: 0, state: 'executed'})
@@ -455,41 +453,37 @@
 
 					else 
 
-						if (size_left > order_size_left) # big trade looping
+						if (size_left > order_size_left) # sell more then bid
 							@saveTrade { price: bid_price, size: order_size_left, user_id:	App.currentUser.id, 	side: 'sell' } 	# I Sell
 							@saveTrade { price: bid_price, size: order_size_left, user_id:	order.get('user_id'), side: 'buy' } 	# Buyer transaction
 
-							@updateStats bid_price, order_size_left
+							# add trade to trades statistics array
+							trades_stats.push { price: bid_price, size: order_size_left, side: 'sell' }
 
 							size_left -= order_size_left
 							order_size_left = 0
-
-							chart_order = App.entityBus.request "get:new:trade:entity"
-							chart_order.set 'price', bid_price
-							@addToChart chart_order
 						
-						else if (size_left is order_size_left)
+						else if (size_left is order_size_left) # sell exactly what's bid
 							@saveTrade { price: bid_price, size: order_size_left, user_id:	App.currentUser.id, 	side: 'sell' } 	# I Sell
 							@saveTrade { price: bid_price, size: order_size_left, user_id:	order.get('user_id'), side: 'buy' } 	# Buyer transaction
 
-							@updateStats bid_price, order_size_left
+							# add trade to trades statistics array
+							trades_stats.push { price: bid_price, size:	order_size_left, side: 'sell' }
 							
 							size_left = order_size_left = 0
 
-							@addToChart new_order
-
-						else # small trade single
+						else # sell less then bid
 							@saveTrade { price: bid_price, size: size_left, user_id:	App.currentUser.id, 	side: 'sell' } 	# I Sell
 							@saveTrade { price: bid_price, size: size_left, user_id:	order.get('user_id'), side: 'buy' } 	# Buyer transaction
 
-							@updateStats bid_price, size_left
+							# add trade to trades statistics array
+							trades_stats.push { price: bid_price, size: size_left }
 
 							order_size_left -= size_left 
 							size_left = 0
 							order.save({size_left: order_size_left})
 
-							@addToChart new_order
-
+						##############
 						if order_size_left is 0 
 							order.save({size_left: 0, state: 'executed'})
 							
@@ -505,19 +499,79 @@
 				for order in removed_orders
 					@bids.remove order
 
-				@recalculatePortfolio()
+				
 
-		recalculatePortfolio: =>
-			@fetching_my_trades.done (portfolio) =>
-				@portfolio.set 'number_of_trades', @my_trades.length
-				console.log "portfolio ", portfolio
-				console.log "my_trades", @my_trades
+			@racalculateStatistics trades_stats
+			@recalculatePortfolio trades_stats
 
-				contracts_traded = _.reduce @my_trades
-				console.log 'contracts_traded', contracts_traded
+			# redraw chart
+			@chartRegion()
+
+		racalculateStatistics: (trades_stats) ->
+			_.each trades_stats, (stat) =>
+				@stats.set 'total_contracts_traded', Number(@stats.get('total_contracts_traded')) + stat.size
+				@stats.set 'number_of_trades', Number(@stats.get('number_of_trades')) + 1
+				@stats.set('open', stat.price) if Number(@stats.get('open')) is 0
+				@stats.set 'high', stat.price if Number(@stats.get('high')) < stat.price
+				@stats.set 'low', stat.price if Number(@stats.get('low')) > stat.price or Number(@stats.get('low')) is 0
+				@stats.set 'last', stat.price
+
+			@stats.save()
 
 
-			# @portfolio.contracts_traded = contracts_traded
+		recalculatePortfolio: ->
+			contract_multipier = 10 
+			contracts_traded = 0
+			trades = @my_trades.length
+			open_position = 0
+
+			total_buy_price = 0
+			total_sell_price = 0
+			num_buy_trades = 0
+			num_sell_trades = 0
+
+			all_my_trades = @my_trades.toJSON()
+			all_my_trades.reverse()
+
+			_.each all_my_trades, (trade) ->
+				contracts_traded += Number(trade.size)
+
+				if trade.side == 'buy'
+					open_position += Number(trade.size)
+					num_buy_trades += Number(trade.size)
+					total_buy_price += Number(trade.size) * Number(trade.price)
+				else 
+					open_position -= Number(trade.size)
+					num_sell_trades += Number(trade.size)
+					total_sell_price += Number(trade.size) * Number(trade.price)
+
+			avg_buy_price = total_buy_price / num_buy_trades
+			avg_sell_price = total_sell_price / num_sell_trades
+
+			if num_buy_trades > num_sell_trades
+				open_position_valuation = contract_multipier * (num_buy_trades - num_sell_trades) * ( Number(@highest_bid()) - avg_buy_price)
+			else 
+				# short position
+				open_position_valuation = contract_multipier * (num_sell_trades - num_buy_trades) * ( avg_sell_price - Number(@lowest_offer()) )
+
+			console.log "total sell trades", num_sell_trades
+			console.log "total buy trades", num_buy_trades
+			console.log "agv buy", avg_buy_price
+			console.log "avg sell", avg_sell_price
+			console.log "cena sell", avg_sell_price
+
+
+			@portfolio.set 'contracts_traded', contracts_traded
+			@portfolio.set 'number_of_trades', trades
+			@portfolio.set 'open_position', open_position
+			@portfolio.set 'open_postition_valuation', open_position_valuation
+			@portfolio.set 'total_valuation', Number(@portfolio.get('cash')) + open_position_valuation 
+
+			@portfolio.save()
+
+
+
+
 
 
 

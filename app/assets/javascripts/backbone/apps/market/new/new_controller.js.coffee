@@ -10,7 +10,7 @@
 
 			if model 
 				new_order.set('price', model.get('price'))
-				new_order.set('size', model.get('size'))
+				new_order.set('size_left', model.get('size_left'))
 				new_order.set('side', model.get('side'))
 			
 			new_order.set "user_id", String(App.currentUser.id)

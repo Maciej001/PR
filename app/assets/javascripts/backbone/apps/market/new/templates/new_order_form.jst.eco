@@ -4,12 +4,12 @@
 		<div class="large-12 columns">
 			<h5>NEW ORDER</h5>
 			<div class="large-6">
-				<% if @side == 'buy' || @side == '': %>
-	      	<input type="radio" name="side" value="0" 	id="buy" checked="checked">	<label for="buy" >Buy</label>
-	      	<input type="radio" name="side" value="1" 	id="sell"><label for="sell">Sell</label>
-	      <% else: %>
+				<% if @side == 'sell' || @side == '': %>
 					<input type="radio" name="side" value="0" 	id="buy">	<label for="buy" >Buy</label>
 	      	<input type="radio" name="side" value="1" 	id="sell" checked="checked"><label for="sell">Sell</label>
+	      <% else: %>
+	      	<input type="radio" name="side" value="0" 	id="buy" checked="checked">	<label for="buy" >Buy</label>
+	      	<input type="radio" name="side" value="1" 	id="sell"><label for="sell">Sell</label>
 	      <% end %>
 			</div>
 		</div>
@@ -38,8 +38,8 @@
 		<div class="large-12 columns">
 			<!-- <label>Number of contract</label> -->
 			<div class="large-6">
-				<% if @size: %>
-					<input id="size-input" type="text" name="size" placeholder="Size" value="<%= Number(@size).toFixed(0) %>">
+				<% if @size_left: %>
+					<input id="size-input" type="text" name="size" placeholder="Size" value="<%= Number(@size_left).toFixed(0) %>">
 				<% else: %>
 					<input id="size-input" type="text" name="size" placeholder="Size" value="">
 				<% end %>

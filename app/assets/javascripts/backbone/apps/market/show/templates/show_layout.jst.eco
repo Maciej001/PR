@@ -12,8 +12,10 @@
 <div class="row">
 	
 	<div class="small-12 large-4 columns">
+		<div id="prices-region">
 			<div id="bids-region"></div>	
 			<div id="offers-region"></div>	
+		</div>
 	</div>
 
 	<div class="small-12 large-8 columns">
