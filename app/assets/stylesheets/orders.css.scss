@@ -34,23 +34,34 @@
 
 	ul li {
 		width: 150px;
-		&:first-child button {
+		&:first-child button.btn-price {
 			height: 150px;
 			background: $dark-blue;
+
+			&:hover {
+				color: white;
+				background: lighten($dark-blue, 5%);
+			}
+
 			.price {
 				font-size: 2.5em;
-			}
-			&:hover {
-				background: darken($dark-blue, 7%);
 			}
 		}
 	}
 
 	ul li button {
+		@include border-radius(0,0);
+		border: none;
 		background: $blue;
 		width: 150px;
 		height: auto;
 		margin-bottom: 1px;
+		padding: 10px;
+
+		&:hover {
+			color: white;
+			background: lighten($blue, 5%);
+		}
 
 		.price {
 			font-size: 1.5em;

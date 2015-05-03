@@ -23,7 +23,7 @@ $ct-class-horizontal: ct-horizontal !default;
 $ct-container-ratio: (1/1.618) !default;
 
 // Text styles for labels
-$ct-text-color: rgba(255, 255, 255, 0.8) !default;
+$ct-text-color: $light-blue !default;
 $ct-text-size: 0.75rem !default;
 $ct-text-align: left !default;
 $ct-horizontal-text-align: left !default;
@@ -41,7 +41,7 @@ $ct-point-size: 15px !default;
 // Line chart point, can be either round or square
 $ct-point-shape: round !default;
 // Area fill transparency between 0 and 1
-$ct-area-opacity: 0.25 !default;
+$ct-area-opacity: 0.15 !default;
 
 // Bar chart bar width
 $ct-bar-width: 10px !default;
@@ -63,7 +63,7 @@ $ct-include-alternative-responsive-containers: $ct-include-classes !default;
 // Series names and colors. This can be extended or customized as desired. Just add more series and colors.
 $ct-series-names: (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o) !default;
 $ct-series-colors: (
-  $yellow,
+  $light-blue,
   #f05b4f,
   #f4c63d,
   #d17905,

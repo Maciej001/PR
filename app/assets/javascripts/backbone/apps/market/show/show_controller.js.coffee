@@ -165,7 +165,6 @@
 				height: 400
 				showArea: true
 				chartPadding:
-					top: 20
 					right: 20
 					left: 20
 				low: (@minArray data.series[0]) - 1

@@ -161,6 +161,10 @@
   }
 }
 
+.ct-chart {
+  background: none;
+}
+
 .ct-chart .ct-series.ct-series-a .ct-point  {
   @include animation(exploding-stroke 2s ease-out infinite);
 }
@@ -170,8 +174,14 @@
 }
 
 .ct-chart .ct-series.ct-series-a .ct-line {
-  stroke: $yellow;
+  stroke: $light-blue;
   stroke-width: 5px;
+}
+
+
+#chart-region svg {
+  margin-top: 0;
+  background: white;
 }
 
 .chart-area.ct-chart {
