@@ -197,7 +197,7 @@
 
 
 		sessionRegion: ->
-			sessionView = @getSessionView @stats
+			sessionView = @getSessionView()
 			@show sessionView, region: @layoutView.sessionRegion
 
 		portfolioRegion: =>
@@ -227,9 +227,9 @@
 		getChartView: ->
 			new Show.Chart
 
-		getSessionView: (stats) ->
+		getSessionView: ->
 			new Show.Session 
-				model: stats
+				model: @stats
 
 		getLayoutView: ->
 			new Show.LayoutView
@@ -520,10 +520,12 @@
 
 
 		recalculatePortfolio: ->
-			contract_multipier = 10 
+			start_cash = 100000
+			contract_multiplier = 10 
 			contracts_traded = 0
 			trades = @my_trades.length
 			open_position = 0
+			open_position_valuation = 0
 
 			total_buy_price = 0
 			total_sell_price = 0
@@ -548,24 +550,25 @@
 			avg_buy_price = total_buy_price / num_buy_trades
 			avg_sell_price = total_sell_price / num_sell_trades
 
-			if num_buy_trades > num_sell_trades
-				open_position_valuation = contract_multipier * (num_buy_trades - num_sell_trades) * ( Number(@highest_bid()) - avg_buy_price)
-			else 
+			if num_buy_trades >= num_sell_trades
+				#long position
+				open_position_valuation = contract_multiplier * (num_buy_trades - num_sell_trades) * ( Number(@highest_bid()) - avg_buy_price)
+				cash = start_cash + contract_multiplier * num_sell_trades * (avg_sell_price - avg_buy_price)
+			else if num_buy_trades < num_sell_trades 
 				# short position
-				open_position_valuation = contract_multipier * (num_sell_trades - num_buy_trades) * ( avg_sell_price - Number(@lowest_offer()) )
+				open_position_valuation = contract_multiplier * (num_sell_trades - num_buy_trades) * ( avg_sell_price - Number(@lowest_offer()) )
+				cash = start_cash + contract_multiplier * num_buy_trades * (avg_sell_price - avg_buy_price)
+			else 
+				open_position_valuation = 0
 
-			console.log "total sell trades", num_sell_trades
-			console.log "total buy trades", num_buy_trades
-			console.log "agv buy", avg_buy_price
-			console.log "avg sell", avg_sell_price
-			console.log "cena sell", avg_sell_price
-
-
+			@portfolio.set 'avg_buy_price', avg_buy_price
+			@portfolio.set 'avg_sell_price', avg_sell_price
 			@portfolio.set 'contracts_traded', contracts_traded
 			@portfolio.set 'number_of_trades', trades
 			@portfolio.set 'open_position', open_position
 			@portfolio.set 'open_postition_valuation', open_position_valuation
-			@portfolio.set 'total_valuation', Number(@portfolio.get('cash')) + open_position_valuation 
+			@portfolio.set 'cash', cash
+			@portfolio.set 'total_valuation', cash + open_position_valuation 
 
 			@portfolio.save()
 

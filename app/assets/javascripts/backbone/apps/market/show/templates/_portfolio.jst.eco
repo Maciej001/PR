@@ -21,7 +21,21 @@
 		</tr>
 		<tr>
 			<td>Open position valuation</td>
-			<td class='right-cell'><%= Number(@open_postition_valuation).toFixed(0) %>&nbsp PC</td>
+			<% if Number(@open_position) < 0: %>
+				<td class='right-cell'><%= Number(@open_postition_valuation).toFixed(0) %>&nbsp PC</td>
+			<% else: %>
+				<td class='right-cell'><%= Number(@open_postition_valuation).toFixed(0) %>&nbsp PC</td>
+			<% end %>
+		</tr>
+		<tr>
+			<td>Avg open position price</td>
+			<% if Number(@open_position) < 0: %>
+				<td class='right-cell'><%= @avg_sell_price.toFixed(1) %></td>
+			<% else if Number(@open_position) > 0: %>
+				<td class='right-cell'><%= @avg_buy_price.toFixed(1) %></td>
+			<% else: %>
+				<td class='right-cell'></td>
+			<% end %>
 		</tr>
 		<tr>
 			<td>Cash</td>

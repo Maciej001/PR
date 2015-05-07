@@ -52,9 +52,15 @@
 		template: "market/show/_chart"
 
 	class Show.Session extends App.Views.ItemView
+		initialize: ->
+			@listenTo @model, "change", @render
+		
 		template: "market/show/_session"
 
 	class Show.Portfolio extends App.Views.ItemView
+		initialize: ->
+			@listenTo @model, "change", @render
+
 		template: "market/show/_portfolio"
 
 	class Show.EmptyOrdersView extends App.Views.ItemView
